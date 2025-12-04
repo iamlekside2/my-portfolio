@@ -13,6 +13,8 @@ import {
 } from "./components";
 import { useEffect } from "react";
 import { config } from "./constants/config";
+import { Toaster } from "react-hot-toast";
+
 
 const App = () => {
   useEffect(() => {
@@ -23,6 +25,8 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <Toaster position="top-right" />
+
       <div className="bg-primary relative z-0">
         <div className="bg-hero-pattern bg-cover bg-center bg-no-repeat">
           <Navbar />

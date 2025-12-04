@@ -31,6 +31,7 @@ const Computers: React.FC<{ isMobile: boolean }> = ({ isMobile }) => {
 
 const ComputersCanvas = () => {
   const [isMobile, setIsMobile] = useState(false);
+  
 
   useEffect(() => {
     // Add a listener for changes to the screen size

@@ -5,7 +5,7 @@ import type {
   TExperience,
   TTestimonial,
   TProject,
-} from "../types";
+} from '../types';
 
 import {
   mobile,
@@ -19,161 +19,194 @@ import {
   reactjs,
   redux,
   tailwind,
-  nodejs,
-  mongodb,
   git,
-  figma,
-  docker,
-  meta,
-  starbucks,
-  tesla,
-  shopify,
-  carrent,
-  jobit,
-  tripguide,
+  // nexalife,
+  // comcin,
+  // urcalls,
+  // africanproverbs,
+  // websites,
   threejs,
-} from "../assets";
+} from '../assets';
+import africanproverbs from '../assets/africanproverbs.png';
+import nexalife from '../assets/nexalife.png';
+import comcin from '../assets/comcin.png';
+import urcalls from '../assets/urcalls.png';
+import websites from '../assets/websites.png';
 
 export const navLinks: TNavLink[] = [
   {
-    id: "about",
-    title: "About",
+    id: 'about',
+    title: 'About',
   },
   {
-    id: "work",
-    title: "Work",
+    id: 'work',
+    title: 'Work',
   },
   {
-    id: "contact",
-    title: "Contact",
+    id: 'contact',
+    title: 'Contact',
   },
 ];
 
 const services: TService[] = [
   {
-    title: "Web Developer",
+    title: 'Frontend Developer',
     icon: web,
   },
   {
-    title: "React Native Developer",
+    title: 'Mobile App Developer',
     icon: mobile,
   },
   {
-    title: "Backend Developer",
+    title: 'WordPress Developer',
     icon: backend,
   },
   {
-    title: "Content Creator",
+    title: 'API & State Management',
     icon: creator,
   },
 ];
 
 const technologies: TTechnology[] = [
   {
-    name: "HTML 5",
+    name: 'HTML 5',
     icon: html,
   },
   {
-    name: "CSS 3",
+    name: 'CSS 3',
     icon: css,
   },
   {
-    name: "JavaScript",
+    name: 'JavaScript',
     icon: javascript,
   },
   {
-    name: "TypeScript",
+    name: 'TypeScript',
     icon: typescript,
   },
   {
-    name: "React JS",
+    name: 'React JS',
     icon: reactjs,
   },
   {
-    name: "Redux Toolkit",
+    name: 'Next JS',
+    icon: reactjs,
+  },
+  {
+    name: 'Redux Toolkit',
     icon: redux,
   },
   {
-    name: "Tailwind CSS",
+    name: 'Tailwind CSS',
     icon: tailwind,
   },
   {
-    name: "Node JS",
-    icon: nodejs,
-  },
-  {
-    name: "MongoDB",
-    icon: mongodb,
-  },
-  {
-    name: "Three JS",
+    name: 'Three JS',
     icon: threejs,
   },
   {
-    name: "git",
+    name: 'git',
     icon: git,
-  },
-  {
-    name: "figma",
-    icon: figma,
-  },
-  {
-    name: "docker",
-    icon: docker,
   },
 ];
 
 const experiences: TExperience[] = [
   {
-    title: "React.js Developer",
-    companyName: "Starbucks",
-    icon: starbucks,
-    iconBg: "#383E56",
-    date: "March 2020 - April 2021",
+    title: 'Frontend & React Developer',
+    companyName: 'COMCIN Project',
+    icon: web,
+    iconBg: '#383E56',
+    date: '2025',
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      'Developed and maintained user-facing React applications for COMCIN.',
+      'Implemented dynamic dashboards and multi-step forms for client interactions.',
+      'Integrated APIs and handled responsive design for multiple devices.',
+      'Optimized performance and code quality through reviews and testing.',
     ],
   },
   {
-    title: "React Native Developer",
-    companyName: "Tesla",
-    icon: tesla,
-    iconBg: "#E6DEDD",
-    date: "Jan 2021 - Feb 2022",
+    title: 'Admin Dashboard Developer',
+    companyName: 'UrCalls Admin',
+    icon: backend,
+    iconBg: '#E6DEDD',
+    date: '2024',
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      'Built an admin dashboard to manage users, subscribers, and payments.',
+      'Implemented role-based permissions and dynamic UI updates for different users.',
+      'Developed reusable components for faster project delivery.',
     ],
   },
   {
-    title: "Web Developer",
-    companyName: "Shopify",
-    icon: shopify,
-    iconBg: "#383E56",
-    date: "Jan 2022 - Jan 2023",
+    title: 'Church Dashboard Developer',
+    companyName: 'Church Management Dashboard',
+    icon: mobile,
+    iconBg: '#383E56',
+    date: '2024',
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      'Built dashboard for church management using React.',
+      'Implemented event scheduling, member tracking, and notifications.',
+      'Designed interactive forms and data storage for easy administration.',
     ],
   },
   {
-    title: "Full stack Developer",
-    companyName: "Meta",
-    icon: meta,
-    iconBg: "#E6DEDD",
-    date: "Jan 2023 - Present",
+    title: 'WordPress Designer & Developer',
+    companyName: 'Wildfire',
+    icon: creator,
+    iconBg: '#E6DEDD',
+    date: '2021',
     points: [
-      "Developing and maintaining web applications using React.js and other related technologies.",
-      "Collaborating with cross-functional teams including designers, product managers, and other developers to create high-quality products.",
-      "Implementing responsive design and ensuring cross-browser compatibility.",
-      "Participating in code reviews and providing constructive feedback to other developers.",
+      'Designed and developed WordPress websites including hospital sites and business portfolios.',
+      'Built custom themes and plugins tailored to client needs.',
+      'Implemented responsive designs and optimized performance and SEO.',
+    ],
+  },
+  {
+    title: 'Patient Tracker Developer',
+    companyName: 'Nexalife Care',
+    icon: web,
+    iconBg: '#383E56',
+    date: '2024-2025',
+    points: [
+      'Developed patient referral and tracking systems for Nexalife Care.',
+      'Implemented real-time dashboards to track patient referrals and status updates.',
+      'Integrated API endpoints and multi-step forms for data collection.',
+    ],
+  },
+  {
+    title: 'Frontend & React Developer',
+    companyName: 'Calmglobal - Patient Dashboard',
+    icon: backend,
+    iconBg: '#E6DEDD',
+    date: '2023-2025',
+    points: [
+      'Built patient dashboards to manage appointments, history, and communications.',
+      'Integrated notification systems and dynamic user interfaces using React.',
+      'Implemented role-based access and permissions for different user levels.',
+    ],
+  },
+  {
+    title: 'Frontend & React Developer',
+    companyName: 'AfricanProverbs',
+    icon: web,
+    iconBg: '#383E56',
+    date: '2022 - 2023',
+    points: [
+      'Developed and maintained AfricanProverbs website using modern web technologies.',
+      'Implemented search, filtering, and user-friendly UI/UX features.',
+      'Managed content updates and integrated APIs for proverb data.',
+    ],
+  },
+  {
+    title: 'Frontend Developer & Freelance Projects',
+    companyName: 'Personal Websites & Portfolios',
+    icon: web,
+    iconBg: '#383E56',
+    date: '2021 - Present',
+    points: [
+      'Built personal and client websites using React, Next.js, and WordPress.',
+      'Integrated APIs, payment systems, and dynamic dashboards.',
+      'Delivered projects including hospital websites, business websites, and personal portfolios.',
+      'Handled both design and frontend development ensuring responsive, optimized, and visually appealing sites.',
     ],
   },
 ];
@@ -181,93 +214,101 @@ const experiences: TExperience[] = [
 const testimonials: TTestimonial[] = [
   {
     testimonial:
-      "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
-    name: "Sara Lee",
-    designation: "CFO",
-    company: "Acme Co",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
+      'I thought it was impossible to make a website as impressive as our brand, but Olamilekan proved me wrong.',
+    name: 'Mr Ben',
+    designation: 'C.E.O',
+    company: 'ABC Consult',
+    image: 'https://randomuser.me/api/portraits/women/44.jpg',
   },
   {
     testimonial:
-      "I've never met a web developer who truly cares about their clients' success like Rick does.",
-    name: "Chris Brown",
-    designation: "COO",
-    company: "DEF Corp",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
+      "I've never met a developer who truly cares about the success of their clients like Olamilekan does.",
+    name: 'Mr Rilwan',
+    designation: 'COO',
+    company: 'Concim Ventures',
+    image: 'https://randomuser.me/api/portraits/men/45.jpg',
   },
   {
     testimonial:
-      "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
-    name: "Lisa Wang",
-    designation: "CTO",
-    company: "456 Enterprises",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
+      "After Olamilekan optimized our website, our traffic increased significantly. We can't thank him enough!",
+    name: 'Mr Dimeji',
+    designation: 'CTO',
+    company: 'Press Featured',
+    image: 'https://randomuser.me/api/portraits/women/46.jpg',
   },
 ];
 
 const projects: TProject[] = [
   {
-    name: "Car Rent",
+    name: 'COMCIN Project',
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      'Web application for managing COMCIN workflows, including user dashboards, multi-step forms, and API integrations to streamline operations.',
     tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "mongodb",
-        color: "green-text-gradient",
-      },
-      {
-        name: "tailwind",
-        color: "pink-text-gradient",
-      },
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'redux', color: 'green-text-gradient' },
+      { name: 'tailwind', color: 'pink-text-gradient' },
     ],
-    image: carrent,
-    sourceCodeLink: "https://github.com/",
+    image: comcin,
+    sourceCodeLink: 'https://comcin.com.ng/',
   },
   {
-    name: "Job IT",
+    name: 'UrCalls Admin Dashboard',
     description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+      'Admin dashboard for UrCalls to manage users, subscriptions, payments, and role-based permissions, built with React and integrated with multiple payment APIs.',
     tags: [
-      {
-        name: "react",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "restapi",
-        color: "green-text-gradient",
-      },
-      {
-        name: "scss",
-        color: "pink-text-gradient",
-      },
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'redux', color: 'pink-text-gradient' },
     ],
-    image: jobit,
-    sourceCodeLink: "https://github.com/",
+    image: urcalls,
+    sourceCodeLink: 'https://urcalls.com/', // replace
   },
   {
-    name: "Trip Guide",
+    name: 'Nexalife Care (Patient Tracker)',
     description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+      'Patient referral and tracking system for Nexalife Care with real-time dashboards, multi-step forms, and API integration to manage patient data efficiently.',
     tags: [
-      {
-        name: "nextjs",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "supabase",
-        color: "green-text-gradient",
-      },
-      {
-        name: "css",
-        color: "pink-text-gradient",
-      },
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'tailwind', color: 'green-text-gradient' },
+      { name: 'api', color: 'pink-text-gradient' },
     ],
-    image: tripguide,
-    sourceCodeLink: "https://github.com/",
+    image: nexalife,
+    sourceCodeLink: 'https://nexalifecare.com/',
+  },
+  {
+    name: 'Church Dashboard',
+    description:
+      'Dashboard for church management including event scheduling, member tracking, and notifications, providing an easy-to-use admin interface.',
+    tags: [
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'typescript', color: 'green-text-gradient' },
+      { name: 'firebase', color: 'pink-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: '',
+  },
+  {
+    name: 'AfricanProverbs',
+    description:
+      'Web platform showcasing African proverbs with search, filtering, and dynamic UI features, developed for educational and cultural engagement.',
+    tags: [
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'nextjs', color: 'green-text-gradient' },
+      { name: 'tailwind', color: 'pink-text-gradient' },
+    ],
+    image: africanproverbs,
+    sourceCodeLink: 'https://africanproverbs.com/', // replace
+  },
+  {
+    name: 'Freelance Websites',
+    description:
+      'Designed and developed multiple WordPress and custom websites for hospitals, businesses, and personal portfolios, handling both frontend design and backend setup.',
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'php', color: 'green-text-gradient' },
+      { name: 'elementor', color: 'pink-text-gradient' },
+    ],
+    image: websites,
+    sourceCodeLink: 'https://www.pressfeatured.com/',
   },
 ];
 
