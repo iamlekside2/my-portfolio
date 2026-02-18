@@ -57,7 +57,7 @@ const Hero = () => {
 
   return (
     <section className="relative z-[3] mx-auto h-screen w-full overflow-hidden">
-      {/* Text content */}
+      {/* Text content — with dark backdrop for readability */}
       <div
         className={`absolute inset-0 top-[120px] z-[3] mx-auto max-w-7xl ${styles.paddingX} flex flex-row items-start gap-5 pointer-events-none`}
       >
@@ -65,7 +65,7 @@ const Hero = () => {
           className="mt-5 flex flex-col items-center justify-center"
           {...fadeUp(0.1)}
         >
-          {/* Gold accent dot — like a star */}
+          {/* Gold accent dot */}
           <motion.div
             className="h-5 w-5 rounded-full"
             style={{
@@ -87,108 +87,105 @@ const Hero = () => {
         </motion.div>
 
         <div className="pointer-events-auto max-w-2xl">
-          <motion.h1 className={`${styles.heroHeadText}`} {...fadeUp(0.2)}>
-            Hi, I'm{" "}
-            <span className="accent-text-gradient">{config.hero.name}</span>
-          </motion.h1>
-          <motion.p
-            className={`${styles.heroSubText} mt-2`}
-            {...fadeUp(0.35)}
+          {/* Semi-transparent backdrop behind text so it's always readable */}
+          <div
+            className="rounded-2xl px-6 py-5 -mx-6 -my-2"
+            style={{
+              background: "var(--color-surface)",
+              backdropFilter: "blur(8px)",
+              WebkitBackdropFilter: "blur(8px)",
+            }}
           >
-            {config.hero.p[0]} <br className="hidden sm:block" />
-            {config.hero.p[1]}
-          </motion.p>
+            <motion.h1 className={`${styles.heroHeadText}`} {...fadeUp(0.2)}>
+              Hi, I'm{" "}
+              <span className="accent-text-gradient">{config.hero.name}</span>
+            </motion.h1>
+            <motion.p
+              className={`${styles.heroSubText} mt-2`}
+              {...fadeUp(0.35)}
+            >
+              {config.hero.p[0]} <br className="hidden sm:block" />
+              {config.hero.p[1]}
+            </motion.p>
 
-          {/* Typewriter — gold code brackets */}
-          <motion.div
-            {...fadeUp(0.5)}
-            className="mt-6 flex items-center gap-2"
-          >
-            <span
-              className="font-mono text-[18px] sm:text-[22px]"
-              style={{ color: "var(--color-accent)" }}
-            >
-              {"<"}
-            </span>
-            <span
-              className="font-mono text-[16px] sm:text-[20px]"
-              style={{ color: "var(--text-primary)" }}
-            >
-              {typedText}
-            </span>
-            <span className="typewriter-cursor" />
-            <span
-              className="font-mono text-[18px] sm:text-[22px]"
-              style={{ color: "var(--color-accent)" }}
-            >
-              {"/>"}
-            </span>
-          </motion.div>
-
-          {/* Personality motifs — Madrid Crest + Eagle */}
-          <motion.div
-            {...fadeUp(0.6)}
-            className="mt-6 flex items-center gap-4"
-          >
+            {/* Typewriter */}
             <motion.div
-              animate={{ rotate: [0, 5, -5, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="opacity-60 hover:opacity-100 transition-opacity duration-300"
-              title="Hala Madrid"
+              {...fadeUp(0.5)}
+              className="mt-6 flex items-center gap-2"
             >
-              <MadridCrest size={32} />
-            </motion.div>
-            <motion.div
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              className="opacity-60 hover:opacity-100 transition-opacity duration-300"
-              title="Starboy"
-            >
-              <EagleMark size={36} />
-            </motion.div>
-            <motion.span
-              className="font-mono text-[22px] font-black"
-              style={{ color: "var(--color-accent)" }}
-              animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              title="CR7"
-            >
-              CR7
-            </motion.span>
-          </motion.div>
-
-          {/* CTAs — Gold primary, glass secondary */}
-          <motion.div {...fadeUp(0.75)} className="mt-6 flex gap-4">
-            <a
-              href="#contact"
-              className="group relative overflow-hidden rounded-full px-8 py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-glow"
-              style={{
-                background:
-                  "linear-gradient(135deg, var(--color-accent), var(--gold-light, #f0d060))",
-                color: "#0a0e1a",
-              }}
-            >
-              <span className="relative z-10 font-bold">Let's Talk</span>
               <span
-                className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="font-mono text-[18px] sm:text-[22px]"
+                style={{ color: "var(--color-accent)" }}
+              >
+                {"<"}
+              </span>
+              <span
+                className="font-mono text-[16px] sm:text-[20px]"
+                style={{ color: "var(--text-primary)" }}
+              >
+                {typedText}
+              </span>
+              <span className="typewriter-cursor" />
+              <span
+                className="font-mono text-[18px] sm:text-[22px]"
+                style={{ color: "var(--color-accent)" }}
+              >
+                {"/>"}
+              </span>
+            </motion.div>
+
+            {/* Personality icons — small, clean, below typewriter */}
+            <motion.div
+              {...fadeUp(0.6)}
+              className="mt-5 flex items-center gap-3"
+            >
+              <MadridCrest size={24} id="heroCrest" className="opacity-50 hover:opacity-100 transition-opacity duration-300" />
+              <EagleMark size={26} className="opacity-50 hover:opacity-100 transition-opacity duration-300" />
+              <span
+                className="h-[1px] w-8"
+                style={{ background: "var(--glass-border)" }}
+              />
+              <span
+                className="text-[11px] font-medium tracking-widest uppercase"
+                style={{ color: "var(--color-muted)" }}
+              >
+                Hala Madrid &bull; Starboy
+              </span>
+            </motion.div>
+
+            {/* CTAs */}
+            <motion.div {...fadeUp(0.7)} className="mt-6 flex gap-4">
+              <a
+                href="#contact"
+                className="group relative overflow-hidden rounded-full px-8 py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-glow"
                 style={{
                   background:
-                    "linear-gradient(135deg, var(--gold-light, #f0d060), var(--color-accent))",
+                    "linear-gradient(135deg, var(--color-accent), var(--gold-light, #f0d060))",
+                  color: "#0a0e1a",
                 }}
-              />
-            </a>
-            <a
-              href="#about"
-              className="glass rounded-full px-8 py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-glow"
-              style={{ color: "var(--text-primary)" }}
-            >
-              Explore
-            </a>
-          </motion.div>
+              >
+                <span className="relative z-10 font-bold">Let's Talk</span>
+                <span
+                  className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    background:
+                      "linear-gradient(135deg, var(--gold-light, #f0d060), var(--color-accent))",
+                  }}
+                />
+              </a>
+              <a
+                href="#about"
+                className="glass rounded-full px-8 py-3 font-semibold transition-all duration-300 hover:scale-105 hover:shadow-glow"
+                style={{ color: "var(--text-primary)" }}
+              >
+                Explore
+              </a>
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* 3D Canvas */}
+      {/* 3D Canvas — elements are pushed right so they don't overlap text */}
       <ComputersCanvas />
 
       {/* Scroll indicator */}
