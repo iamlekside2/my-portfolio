@@ -8,7 +8,8 @@ import { slideIn } from "../../utils/motion";
 import { config } from "../../constants/config";
 import { Header } from "../atoms/Header";
 import toast from "react-hot-toast";
-
+import MadridCrest from "../layout/MadridCrest";
+import EagleMark from "../layout/EagleMark";
 
 const INITIAL_STATE = Object.fromEntries(
   Object.keys(config.contact.form).map((input) => [input, ""])
@@ -65,15 +66,25 @@ const Contact = () => {
       );
   };
 
-
   return (
-    <div
-      className={`flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row`}
-    >
+    <div className="flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row">
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
-        className="bg-black-100 flex-[0.75] rounded-2xl p-8"
+        className="glass-card flex-[0.75] p-8 relative"
+        style={{ borderTop: "2px solid var(--color-accent)" }}
       >
+        {/* Personality motifs decorating the form card */}
+        <div className="absolute right-6 top-6 flex items-center gap-3 opacity-20">
+          <MadridCrest size={22} />
+          <EagleMark size={24} />
+          <span
+            className="font-mono text-[18px] font-black"
+            style={{ color: "var(--color-accent)" }}
+          >
+            7
+          </span>
+        </div>
+
         <Header useMotion={false} {...config.contact} />
 
         <form
@@ -89,25 +100,43 @@ const Contact = () => {
 
             return (
               <label key={input} className="flex flex-col">
-                <span className="mb-4 font-medium text-white">{span}</span>
+                <span
+                  className="mb-4 font-medium"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  {span}
+                </span>
                 <Component
                   type={input === "email" ? "email" : "text"}
                   name={input}
                   value={form[`${input}`]}
                   onChange={handleChange}
                   placeholder={placeholder}
-                  className="bg-tertiary placeholder:text-secondary rounded-lg border-none px-6 py-4 font-medium text-white outline-none"
+                  className="rounded-xl border-none px-6 py-4 font-medium outline-none transition-all duration-300 placeholder:text-[var(--color-muted)]"
+                  style={{
+                    background: "var(--color-tertiary)",
+                    color: "var(--text-primary)",
+                    border: "1px solid var(--glass-border)",
+                  }}
                   {...(input === "message" && { rows: 7 })}
                 />
               </label>
             );
           })}
-          <button
+          {/* Gold submit button */}
+          <motion.button
             type="submit"
-            className="bg-tertiary shadow-primary w-fit rounded-xl px-8 py-3 font-bold text-white shadow-md outline-none"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-fit rounded-xl px-8 py-3 font-bold shadow-md outline-none transition-all duration-300 hover:shadow-glow"
+            style={{
+              background:
+                "linear-gradient(135deg, var(--color-accent), var(--gold-light, #f0d060))",
+              color: "#0a0e1a",
+            }}
           >
-            {loading ? "Sending..." : "Send"}
-          </button>
+            {loading ? "Sending..." : "Send Message"}
+          </motion.button>
         </form>
       </motion.div>
 
