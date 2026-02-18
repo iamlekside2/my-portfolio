@@ -15,14 +15,16 @@ const CodeTerminal = ({ isLight }: { isLight: boolean }) => {
   useFrame(({ clock }) => {
     if (groupRef.current) {
       groupRef.current.rotation.y =
-        Math.sin(clock.getElapsedTime() * 0.3) * 0.08 - 0.15;
+        Math.sin(clock.getElapsedTime() * 0.3) * 0.06 - 0.2;
+      groupRef.current.rotation.x =
+        Math.sin(clock.getElapsedTime() * 0.4) * 0.03 + 0.05;
       groupRef.current.position.y =
-        Math.sin(clock.getElapsedTime() * 0.5) * 0.1;
+        -0.1 + Math.sin(clock.getElapsedTime() * 0.5) * 0.12;
     }
     if (screenRef.current) {
       const mat = screenRef.current.material as THREE.MeshStandardMaterial;
       mat.emissiveIntensity =
-        0.15 + Math.sin(clock.getElapsedTime() * 1.5) * 0.05;
+        0.2 + Math.sin(clock.getElapsedTime() * 1.5) * 0.08;
     }
   });
 
@@ -44,7 +46,7 @@ const CodeTerminal = ({ isLight }: { isLight: boolean }) => {
 
   return (
     <Float speed={1.2} rotationIntensity={0.1} floatIntensity={0.3}>
-      <group ref={groupRef} position={[2.5, 0, 0]}>
+      <group ref={groupRef} position={[2.2, -0.1, 0.5]}>
         {/* Terminal body — dark rounded rectangle */}
         <RoundedBox args={[3.2, 2.2, 0.12]} radius={0.12} smoothness={4}>
           <meshStandardMaterial
@@ -131,7 +133,7 @@ const TechOrbitals = ({ isLight }: { isLight: boolean }) => {
     <group ref={groupRef}>
       {/* React-like atom rings */}
       <Float speed={2} rotationIntensity={1.5} floatIntensity={0.6}>
-        <group position={[4.2, 1.5, -0.5]}>
+        <group position={[4.2, 0.8, -0.5]}>
           <mesh rotation={[0, 0, 0]}>
             <torusGeometry args={[0.35, 0.015, 8, 48]} />
             <meshStandardMaterial

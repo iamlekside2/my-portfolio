@@ -87,13 +87,13 @@ const Hero = () => {
         </motion.div>
 
         <div className="pointer-events-auto max-w-2xl">
-          {/* Semi-transparent backdrop behind text so it's always readable */}
+          {/* Soft backdrop behind text for readability */}
           <div
             className="rounded-2xl px-6 py-5 -mx-6 -my-2"
             style={{
-              background: "var(--color-surface)",
-              backdropFilter: "blur(8px)",
-              WebkitBackdropFilter: "blur(8px)",
+              background: "linear-gradient(135deg, var(--color-surface), transparent 85%)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
             }}
           >
             <motion.h1 className={`${styles.heroHeadText}`} {...fadeUp(0.2)}>
@@ -134,7 +134,7 @@ const Hero = () => {
               </span>
             </motion.div>
 
-            {/* Personality icons — small, clean, below typewriter */}
+            {/* Personality icons — crest, eagle, CR7, subtle */}
             <motion.div
               {...fadeUp(0.6)}
               className="mt-5 flex items-center gap-3"
@@ -142,7 +142,13 @@ const Hero = () => {
               <MadridCrest size={24} id="heroCrest" className="opacity-50 hover:opacity-100 transition-opacity duration-300" />
               <EagleMark size={26} className="opacity-50 hover:opacity-100 transition-opacity duration-300" />
               <span
-                className="h-[1px] w-8"
+                className="font-mono text-[13px] font-bold opacity-50 hover:opacity-100 transition-opacity duration-300"
+                style={{ color: "var(--color-accent)" }}
+              >
+                CR7
+              </span>
+              <span
+                className="h-[1px] w-6"
                 style={{ background: "var(--glass-border)" }}
               />
               <span
