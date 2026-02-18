@@ -1,118 +1,196 @@
 import { Suspense, useEffect, useRef, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Preload } from "@react-three/drei";
+import { Float, Preload, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 
 import CanvasLoader from "../layout/Loader";
 
-/* ═══ Floating Number 7 — CR7 tribute (3D geometry, no text) ═══ */
-const Number7 = ({ isLight }: { isLight: boolean }) => {
+/* ═══ Floating Code Terminal — techy centerpiece ═══ */
+const CodeTerminal = ({ isLight }: { isLight: boolean }) => {
   const groupRef = useRef<THREE.Group>(null);
+  const screenRef = useRef<THREE.Mesh>(null);
   const gold = isLight ? "#b8941f" : "#d4af37";
-
-  const sevenShape = useMemo(() => {
-    const shape = new THREE.Shape();
-    // Draw a "7" as a 2D shape, then extrude
-    shape.moveTo(-0.8, 1.5);
-    shape.lineTo(0.8, 1.5);
-    shape.lineTo(0.8, 1.2);
-    shape.lineTo(0.1, -1.5);
-    shape.lineTo(-0.25, -1.5);
-    shape.lineTo(0.4, 1.2);
-    shape.lineTo(-0.8, 1.2);
-    shape.lineTo(-0.8, 1.5);
-    return shape;
-  }, []);
+  const blue = isLight ? "#1a47b8" : "#3b82f6";
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
       groupRef.current.rotation.y =
-        Math.sin(clock.getElapsedTime() * 0.35) * 0.25;
+        Math.sin(clock.getElapsedTime() * 0.3) * 0.08 - 0.15;
       groupRef.current.position.y =
-        0.2 + Math.sin(clock.getElapsedTime() * 0.6) * 0.15;
+        Math.sin(clock.getElapsedTime() * 0.5) * 0.1;
+    }
+    if (screenRef.current) {
+      const mat = screenRef.current.material as THREE.MeshStandardMaterial;
+      mat.emissiveIntensity =
+        0.15 + Math.sin(clock.getElapsedTime() * 1.5) * 0.05;
     }
   });
 
+  // Code line widths and colors for the fake code on screen
+  const codeLines = useMemo(
+    () =>
+      [
+        { w: 0.6, x: -0.55, color: gold, opacity: 0.7 },     // const
+        { w: 0.9, x: -0.4, color: blue, opacity: 0.5 },       // import
+        { w: 0.4, x: -0.55, color: "#9ca3b8", opacity: 0.35 },// comment
+        { w: 1.1, x: -0.3, color: gold, opacity: 0.6 },       // function
+        { w: 0.7, x: -0.2, color: blue, opacity: 0.45 },      // return
+        { w: 0.5, x: -0.55, color: "#9ca3b8", opacity: 0.3 }, // bracket
+        { w: 0.85, x: -0.35, color: gold, opacity: 0.55 },    // export
+        { w: 0.3, x: -0.55, color: blue, opacity: 0.4 },      // }
+      ] as const,
+    [gold, blue]
+  );
+
   return (
-    <Float speed={1} rotationIntensity={0.15} floatIntensity={0.3}>
-      <group ref={groupRef} position={[3, 0.2, 0]} scale={1.1}>
-        <mesh>
-          <extrudeGeometry
-            args={[
-              sevenShape,
-              { depth: 0.35, bevelEnabled: true, bevelSize: 0.05, bevelThickness: 0.05, bevelSegments: 3 },
-            ]}
-          />
+    <Float speed={1.2} rotationIntensity={0.1} floatIntensity={0.3}>
+      <group ref={groupRef} position={[2.5, 0, 0]}>
+        {/* Terminal body — dark rounded rectangle */}
+        <RoundedBox args={[3.2, 2.2, 0.12]} radius={0.12} smoothness={4}>
           <meshStandardMaterial
-            color={gold}
-            emissive={gold}
-            emissiveIntensity={0.4}
-            metalness={0.95}
-            roughness={0.05}
+            color={isLight ? "#2d3142" : "#111827"}
+            metalness={0.5}
+            roughness={0.3}
+          />
+        </RoundedBox>
+
+        {/* Screen area */}
+        <mesh ref={screenRef} position={[0, -0.05, 0.065]}>
+          <planeGeometry args={[2.9, 1.85]} />
+          <meshStandardMaterial
+            color={isLight ? "#1a1f2e" : "#0d1117"}
+            emissive={isLight ? "#1a1f2e" : "#0d1117"}
+            emissiveIntensity={0.15}
           />
         </mesh>
-        {/* Subtle glow ring behind */}
-        <mesh rotation={[0, 0, 0]} position={[0, 0, -0.2]}>
-          <torusGeometry args={[1.8, 0.02, 12, 64]} />
-          <meshStandardMaterial
-            color={gold}
-            emissive={gold}
-            emissiveIntensity={0.3}
-            metalness={1}
-            roughness={0}
-            transparent
-            opacity={0.35}
+
+        {/* Terminal title bar */}
+        <mesh position={[0, 0.92, 0.07]}>
+          <planeGeometry args={[2.9, 0.2]} />
+          <meshBasicMaterial
+            color={isLight ? "#252b3b" : "#161b22"}
           />
+        </mesh>
+
+        {/* Traffic light dots */}
+        {[
+          { x: -1.2, color: "#ff5f57" },
+          { x: -1.05, color: "#febc2e" },
+          { x: -0.9, color: "#28c840" },
+        ].map((dot, i) => (
+          <mesh key={i} position={[dot.x, 0.92, 0.075]}>
+            <circleGeometry args={[0.035, 16]} />
+            <meshBasicMaterial color={dot.color} />
+          </mesh>
+        ))}
+
+        {/* Fake code lines */}
+        {codeLines.map((line, i) => (
+          <mesh
+            key={i}
+            position={[line.x, 0.62 - i * 0.2, 0.072]}
+          >
+            <planeGeometry args={[line.w, 0.06]} />
+            <meshBasicMaterial
+              color={line.color}
+              transparent
+              opacity={line.opacity}
+            />
+          </mesh>
+        ))}
+
+        {/* Blinking cursor */}
+        <mesh position={[-0.25, 0.62 - 8 * 0.2, 0.072]}>
+          <planeGeometry args={[0.025, 0.1]} />
+          <meshBasicMaterial color={gold} transparent opacity={0.8} />
+        </mesh>
+
+        {/* Gold accent line at top edge */}
+        <mesh position={[0, 1.1, 0.065]}>
+          <planeGeometry args={[3.2, 0.012]} />
+          <meshBasicMaterial color={gold} />
         </mesh>
       </group>
     </Float>
   );
 };
 
-/* ═══ Eagle wings — Wizkid/Starboy (clean, right side) ═══ */
-const EagleWings = ({ isLight }: { isLight: boolean }) => {
+/* ═══ Orbiting tech shapes — React atom, code brackets, nodes ═══ */
+const TechOrbitals = ({ isLight }: { isLight: boolean }) => {
   const groupRef = useRef<THREE.Group>(null);
   const gold = isLight ? "#b8941f" : "#d4af37";
-
-  const wingShape = useMemo(() => {
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.quadraticCurveTo(-1.5, 1.2, -2.8, 0.6);
-    shape.quadraticCurveTo(-2.2, 0.2, -1.6, 0.4);
-    shape.quadraticCurveTo(-1.2, -0.1, -0.8, 0.15);
-    shape.quadraticCurveTo(-0.5, -0.2, 0, -0.25);
-    shape.quadraticCurveTo(0.5, -0.2, 0.8, 0.15);
-    shape.quadraticCurveTo(1.2, -0.1, 1.6, 0.4);
-    shape.quadraticCurveTo(2.2, 0.2, 2.8, 0.6);
-    shape.quadraticCurveTo(1.5, 1.2, 0, 0);
-    return shape;
-  }, []);
+  const blue = isLight ? "#1a47b8" : "#3b82f6";
 
   useFrame(({ clock }) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y =
-        Math.sin(clock.getElapsedTime() * 0.25) * 0.12;
+      groupRef.current.rotation.y = clock.getElapsedTime() * 0.15;
     }
   });
 
   return (
-    <Float speed={1.5} rotationIntensity={0.1} floatIntensity={0.25}>
-      <group ref={groupRef} position={[2.8, -1.8, 0.3]} scale={0.7}>
-        <mesh>
-          <shapeGeometry args={[wingShape]} />
+    <group ref={groupRef}>
+      {/* React-like atom rings */}
+      <Float speed={2} rotationIntensity={1.5} floatIntensity={0.6}>
+        <group position={[4.2, 1.5, -0.5]}>
+          <mesh rotation={[0, 0, 0]}>
+            <torusGeometry args={[0.35, 0.015, 8, 48]} />
+            <meshStandardMaterial
+              color={blue}
+              emissive={blue}
+              emissiveIntensity={0.4}
+              metalness={1}
+              roughness={0}
+            />
+          </mesh>
+          <mesh rotation={[Math.PI / 3, 0, 0]}>
+            <torusGeometry args={[0.35, 0.015, 8, 48]} />
+            <meshStandardMaterial
+              color={blue}
+              emissive={blue}
+              emissiveIntensity={0.4}
+              metalness={1}
+              roughness={0}
+            />
+          </mesh>
+          <mesh rotation={[-Math.PI / 3, 0, 0]}>
+            <torusGeometry args={[0.35, 0.015, 8, 48]} />
+            <meshStandardMaterial
+              color={blue}
+              emissive={blue}
+              emissiveIntensity={0.4}
+              metalness={1}
+              roughness={0}
+            />
+          </mesh>
+          {/* Nucleus */}
+          <mesh>
+            <sphereGeometry args={[0.06, 16, 16]} />
+            <meshStandardMaterial
+              color={blue}
+              emissive={blue}
+              emissiveIntensity={0.6}
+            />
+          </mesh>
+        </group>
+      </Float>
+
+      {/* Wireframe cube — code block */}
+      <Float speed={1.5} rotationIntensity={2} floatIntensity={0.5}>
+        <mesh position={[4, -1.5, 0.5]}>
+          <boxGeometry args={[0.4, 0.4, 0.4]} />
           <meshStandardMaterial
             color={gold}
             emissive={gold}
-            emissiveIntensity={0.2}
-            metalness={0.8}
-            roughness={0.2}
-            side={THREE.DoubleSide}
+            emissiveIntensity={0.3}
             wireframe
           />
         </mesh>
-        {/* Star — Starboy */}
-        <mesh position={[0, -0.1, 0.05]}>
-          <octahedronGeometry args={[0.15]} />
+      </Float>
+
+      {/* Floating diamond — git node */}
+      <Float speed={2.5} rotationIntensity={2} floatIntensity={0.8}>
+        <mesh position={[1.2, 2.3, -0.3]}>
+          <octahedronGeometry args={[0.18]} />
           <meshStandardMaterial
             color={gold}
             emissive={gold}
@@ -121,73 +199,52 @@ const EagleWings = ({ isLight }: { isLight: boolean }) => {
             roughness={0}
           />
         </mesh>
-      </group>
-    </Float>
-  );
-};
+      </Float>
 
-/* ═══ Crown — floats top-right ═══ */
-const Crown = ({ isLight }: { isLight: boolean }) => {
-  const groupRef = useRef<THREE.Group>(null);
-  const gold = isLight ? "#b8941f" : "#d4af37";
+      {/* Small sphere nodes — connected network feel */}
+      {[
+        [3.8, 0, -0.8],
+        [1.5, -1.8, 0.5],
+        [4.5, 0.5, 0.2],
+        [2, 2.5, 0],
+      ].map((pos, i) => (
+        <Float key={i} speed={1.8 + i * 0.3} rotationIntensity={0.5} floatIntensity={0.4}>
+          <mesh position={pos as [number, number, number]}>
+            <sphereGeometry args={[0.06, 12, 12]} />
+            <meshStandardMaterial
+              color={i % 2 === 0 ? gold : blue}
+              emissive={i % 2 === 0 ? gold : blue}
+              emissiveIntensity={0.4}
+            />
+          </mesh>
+        </Float>
+      ))}
 
-  useFrame(({ clock }) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = clock.getElapsedTime() * 0.12;
-    }
-  });
-
-  return (
-    <Float speed={1.8} rotationIntensity={0.2} floatIntensity={0.4}>
-      <group ref={groupRef} position={[3.5, 2, -0.5]} scale={0.8}>
-        {/* Crown base */}
-        <mesh rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.4, 0.05, 8, 32]} />
+      {/* Thin gold ring — like a loading spinner */}
+      <Float speed={1.2} rotationIntensity={3} floatIntensity={0.4}>
+        <mesh position={[0.8, -2, 0.5]} rotation={[0.8, 0.5, 0]}>
+          <torusGeometry args={[0.3, 0.015, 8, 48]} />
           <meshStandardMaterial
             color={gold}
             emissive={gold}
-            emissiveIntensity={0.4}
+            emissiveIntensity={0.5}
             metalness={1}
             roughness={0}
           />
         </mesh>
-        {/* Crown points */}
-        {[0, 1, 2, 3, 4].map((i) => {
-          const angle = (i / 5) * Math.PI * 2;
-          return (
-            <mesh
-              key={i}
-              position={[
-                Math.cos(angle) * 0.4,
-                0.3,
-                Math.sin(angle) * 0.4,
-              ]}
-            >
-              <coneGeometry args={[0.06, 0.3, 4]} />
-              <meshStandardMaterial
-                color={gold}
-                emissive={gold}
-                emissiveIntensity={0.4}
-                metalness={1}
-                roughness={0}
-              />
-            </mesh>
-          );
-        })}
-      </group>
-    </Float>
+      </Float>
+    </group>
   );
 };
 
-/* ═══ Subtle particle dust — gold only, fewer particles ═══ */
+/* ═══ Gold + Blue particle dust ═══ */
 const SceneParticles = ({ isLight }: { isLight: boolean }) => {
   const ref = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
-    const arr = new Float32Array(300 * 3);
-    for (let i = 0; i < 300; i++) {
-      // Bias particles toward right side (positive x)
-      arr[i * 3] = (Math.random() - 0.2) * 14;
+    const arr = new Float32Array(250 * 3);
+    for (let i = 0; i < 250; i++) {
+      arr[i * 3] = (Math.random() - 0.15) * 14;
       arr[i * 3 + 1] = (Math.random() - 0.5) * 12;
       arr[i * 3 + 2] = (Math.random() - 0.5) * 8;
     }
@@ -211,10 +268,10 @@ const SceneParticles = ({ isLight }: { isLight: boolean }) => {
         />
       </bufferGeometry>
       <pointsMaterial
-        size={0.02}
+        size={0.018}
         color={isLight ? "#b8941f" : "#d4af37"}
         transparent
-        opacity={isLight ? 0.25 : 0.4}
+        opacity={isLight ? 0.2 : 0.35}
         sizeAttenuation
       />
     </points>
@@ -265,11 +322,17 @@ const ComputersCanvas = () => {
             intensity={isLight ? 0.5 : 0.35}
             color="#d4af37"
           />
+          <pointLight
+            position={[2, -1, 2]}
+            intensity={0.2}
+            color={isLight ? "#1a47b8" : "#3b82f6"}
+          />
 
-          {/* All 3D pushed to right half so text is readable */}
-          <Number7 isLight={isLight} />
-          <Crown isLight={isLight} />
-          {!isMobile && <EagleWings isLight={isLight} />}
+          {/* Floating code terminal — main techy element */}
+          {!isMobile && <CodeTerminal isLight={isLight} />}
+          {/* Orbiting tech shapes (React atom, cubes, nodes) */}
+          <TechOrbitals isLight={isLight} />
+          {/* Subtle particles */}
           <SceneParticles isLight={isLight} />
         </Suspense>
         <Preload all />
