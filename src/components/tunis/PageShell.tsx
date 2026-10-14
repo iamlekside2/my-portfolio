@@ -24,7 +24,7 @@ const PageShell = ({
       <div className="mx-auto max-w-6xl px-6 pb-28 pt-16 md:pl-10 md:pr-28 md:pt-20 2xl:pr-10">
         <div className="relative mb-14 flex h-[120px] items-center justify-center md:h-[150px]">
           <motion.span
-            style={{ y: ghostY, opacity: ghostOpacity }}
+            style={{ y: ghostY, x: "-50%", opacity: ghostOpacity }}
             className="ghost-title"
           >
             {ghost}
