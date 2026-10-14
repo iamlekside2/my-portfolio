@@ -419,7 +419,6 @@ const projects: TProject[] = [
     ['Okun Development Association', 'Community development association website with membership features.', 'https://okundev.org/'],
     ['Ayetoro Gbede Global Network', 'Community network website connecting members globally.', 'https://ayetorogbedeglobalnetwork.org/'],
     ['Beyond Healthcare Fertility', 'Fertility clinic website with services and appointment enquiries.', 'https://beyondhealthcarefertility.com/'],
-    ['IASSS Iyara', 'Community organisation website.', 'https://iasssiyara.org/'],
   ] as [string, string, string][]).map(([name, description, url]) => ({
     name,
     category: WORDPRESS,

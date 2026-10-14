@@ -40,7 +40,6 @@ const SLUGS: Record<string, string> = {
   "Okun Development Association": "okundev",
   "Ayetoro Gbede Global Network": "ayetoro",
   "Beyond Healthcare Fertility": "beyondhealth",
-  "IASSS Iyara": "iasss",
 };
 
 const tileImage = (p: TProject) =>
