@@ -112,16 +112,18 @@ const FloatingMessage = () => {
             <button
               type="submit"
               disabled={sending}
-              className="flex items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold uppercase tracking-wider transition-transform duration-200 hover:scale-[1.02] disabled:opacity-60"
-              style={{ background: "var(--color-accent)", color: "#111" }}
+              className="tunis-btn h-[44px] w-full justify-between disabled:opacity-60"
             >
-              {sending ? "Sending…" : "Send"} <FiSend size={14} />
+              {sending ? "Sending…" : "Send"}
+              <span className="tunis-btn-arrow">
+                <FiSend size={15} />
+              </span>
             </button>
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold uppercase tracking-wider transition-transform duration-200 hover:scale-[1.02]"
+              className="flex items-center justify-center gap-2 rounded-full py-3 text-[13px] font-bold uppercase tracking-wider transition-transform duration-200 hover:scale-[1.02]"
               style={{ background: "#25D366", color: "#fff" }}
             >
               <FaWhatsapp size={16} /> Chat on WhatsApp

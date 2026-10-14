@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
+import { NavDirectionContext } from "./components/tunis/direction";
 import { Toaster } from "react-hot-toast";
 
 import { config } from "./constants/config";
@@ -13,23 +14,31 @@ import AboutPage from "./pages/AboutPage";
 import PortfolioPage from "./pages/PortfolioPage";
 import ContactPage from "./pages/ContactPage";
 
+const ROUTE_ORDER = ["/", "/about", "/portfolio", "/contact"];
+
 const AnimatedRoutes = () => {
   const location = useLocation();
+  const prevIndex = useRef(0);
+  const index = Math.max(0, ROUTE_ORDER.indexOf(location.pathname));
+  const direction = index >= prevIndex.current ? 1 : -1;
 
   useEffect(() => {
+    prevIndex.current = index;
     window.scrollTo(0, 0);
-  }, [location.pathname]);
+  }, [index, location.pathname]);
 
   return (
-    <AnimatePresence mode="wait">
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/portfolio" element={<PortfolioPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="*" element={<Home />} />
-      </Routes>
-    </AnimatePresence>
+    <NavDirectionContext.Provider value={direction}>
+      <AnimatePresence mode="wait" custom={direction}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/portfolio" element={<PortfolioPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </AnimatePresence>
+    </NavDirectionContext.Provider>
   );
 };
 
@@ -42,6 +51,7 @@ const App = () => {
 
   return (
     <ThemeProvider>
+      <MotionConfig reducedMotion="user">
       <BrowserRouter>
         <Toaster position="top-right" />
         <div
@@ -60,6 +70,7 @@ const App = () => {
           </footer>
         </div>
       </BrowserRouter>
+      </MotionConfig>
     </ThemeProvider>
   );
 };

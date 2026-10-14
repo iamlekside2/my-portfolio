@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { FiSend } from "react-icons/fi";
 import emailjs from "@emailjs/browser";
 
 import { EarthCanvas } from "../canvas";
@@ -67,7 +68,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col-reverse gap-10 overflow-hidden xl:mt-12 xl:flex-row">
+    <div className="flex flex-col-reverse gap-10 xl:mt-12 xl:flex-row">
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className="glass-card flex-[0.75] p-8 relative"
@@ -123,26 +124,18 @@ const Contact = () => {
               </label>
             );
           })}
-          {/* Gold submit button */}
-          <motion.button
-            type="submit"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-fit rounded-xl px-8 py-3 font-bold shadow-md outline-none transition-all duration-300 hover:shadow-glow"
-            style={{
-              background:
-                "linear-gradient(135deg, var(--color-accent), var(--gold-light, #f0d060))",
-              color: "#0a0e1a",
-            }}
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </motion.button>
+          <button type="submit" className="tunis-btn h-[46px] w-fit">
+            {loading ? "Sending…" : "Send Message"}
+            <span className="tunis-btn-arrow">
+              <FiSend size={16} />
+            </span>
+          </button>
         </form>
       </motion.div>
 
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
-        className="h-[350px] md:h-[550px] xl:h-auto xl:flex-1"
+        className="h-[420px] md:h-[580px] xl:h-auto xl:min-h-[560px] xl:flex-1"
       >
         <EarthCanvas />
       </motion.div>

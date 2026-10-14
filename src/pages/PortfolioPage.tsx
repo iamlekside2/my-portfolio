@@ -50,6 +50,7 @@ const PortfolioPage = () => {
   const categories = ["All", ...new Set(projects.map((p) => p.category))];
   const [active, setActive] = useState("All");
   const [selected, setSelected] = useState<TProject | null>(null);
+  const [paused, setPaused] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   const shown = projects.filter(
     (p) =>
@@ -61,6 +62,24 @@ const PortfolioPage = () => {
   useEffect(() => {
     trackRef.current?.scrollTo({ left: 0 });
   }, [active]);
+
+  // Auto-advance the slider; pauses on hover/touch, while the modal is open,
+  // and for users who prefer reduced motion.
+  useEffect(() => {
+    if (paused || selected) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => {
+      const track = trackRef.current;
+      if (!track || document.hidden) return;
+      const max = track.scrollWidth - track.clientWidth;
+      if (track.scrollLeft >= max - 10) {
+        track.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        track.scrollBy({ left: track.clientWidth * 0.55, behavior: "smooth" });
+      }
+    }, 3500);
+    return () => clearInterval(id);
+  }, [paused, selected, active]);
 
   const nudge = (dir: number) => {
     const track = trackRef.current;
@@ -112,6 +131,9 @@ const PortfolioPage = () => {
 
         <div
           ref={trackRef}
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onTouchStart={() => setPaused(true)}
           className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4"
         >
           {shown.map((p) => {
@@ -228,15 +250,19 @@ const PortfolioPage = () => {
                   ))}
                 </div>
                 {selected.sourceCodeLink && (
-                  <a
-                    href={selected.sourceCodeLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-6 flex items-center justify-center gap-2 rounded-xl py-3 text-[13px] font-bold uppercase tracking-wider transition-transform duration-200 hover:scale-[1.02]"
-                    style={{ background: "var(--color-accent)", color: "#111" }}
-                  >
-                    Visit site <FiExternalLink size={15} />
-                  </a>
+                  <div className="mt-6 flex justify-center">
+                    <a
+                      href={selected.sourceCodeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="tunis-btn h-[44px]"
+                    >
+                      Visit site
+                      <span className="tunis-btn-arrow">
+                        <FiExternalLink size={15} />
+                      </span>
+                    </a>
+                  </div>
                 )}
               </div>
             </motion.div>
