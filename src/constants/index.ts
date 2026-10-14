@@ -404,12 +404,40 @@ const projects: TProject[] = [
     image: '',
     sourceCodeLink: 'https://rayaelitehomesandofficescleaningservices.com/',
   },
+  ...([
+    ['CalmGlobal Technologies', 'Company website for CalmGlobal Technologies — software and health-tech services.', 'https://calmglobal.com/'],
+    ['GMBJet', 'Business website with service pages and enquiry flows.', 'https://gmbjet.com/'],
+    ['ReinstateBoost', 'Service business website with lead-capture forms, built with Elementor.', 'https://reinstateboost.com/'],
+    ['Press Featured', 'Media and PR services website.', 'https://www.pressfeatured.com/'],
+    ['Eniwo Egbeme', 'Personal brand website.', 'https://eniwoegbeme.com/'],
+    ['RCCG Jubilee House', 'Church website with about, events and ministry pages.', 'https://rccgjubileehouse.com/'],
+    ['DUMAAC Projects', 'Corporate projects and services website.', 'https://dumaacprojects.com/'],
+    ['Xmage Photography', 'Photography portfolio website with galleries and bookings.', 'https://xmagephotography.com/'],
+    ["St John's Catholic Hospital Kabba", 'Hospital website with departments, services and contact information.', 'https://stjohnscatholichospitalkabba.com.ng/'],
+    ['Kanary Ancillaries', 'Corporate website with service listings.', 'https://kanaryancillaries.com/'],
+    ['Great Ife Alumni Canada', 'Alumni association website with membership management.', 'https://greatifealumni.ca/'],
+    ['Okun Development Association', 'Community development association website with membership features.', 'https://okundev.org/'],
+    ['Ayetoro Gbede Global Network', 'Community network website connecting members globally.', 'https://ayetorogbedeglobalnetwork.org/'],
+    ['Beyond Healthcare Fertility', 'Fertility clinic website with services and appointment enquiries.', 'https://beyondhealthcarefertility.com/'],
+    ['IASSS Iyara', 'Community organisation website.', 'https://iasssiyara.org/'],
+  ] as [string, string, string][]).map(([name, description, url]) => ({
+    name,
+    category: WORDPRESS,
+    description,
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: url,
+  })),
   // ── Mobile ──
   {
     name: 'RealCousins',
     category: MOBILE,
+    extraCategories: [WEB_APPS],
     description:
-      'Family-tree platform connecting relatives — web app plus React Native / Expo mobile app with shared backend.',
+      'Family-tree platform connecting relatives — web app plus React Native / Expo mobile app with shared backend (Node.js, Prisma, PostgreSQL).',
     tags: [
       { name: 'react-native', color: 'blue-text-gradient' },
       { name: 'expo', color: 'green-text-gradient' },

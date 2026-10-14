@@ -21,6 +21,8 @@ export type TTestimonial = {
 export type TProject = {
   description: string;
   category: string;
+  /** Additional categories this project also appears under in the filter */
+  extraCategories?: string[];
   tags: {
     name: string;
     color: string;

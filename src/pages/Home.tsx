@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { FiArrowRight } from "react-icons/fi";
 import { config } from "../constants/config";
 import PageTransition from "../components/tunis/PageTransition";
+import Socials from "../components/tunis/Socials";
 
 const Home = () => {
   const [hasPortrait, setHasPortrait] = useState(true);
@@ -65,13 +66,14 @@ const Home = () => {
             user-friendly web apps, dashboards and WordPress sites — and I
             collaborate closely with clients to bring their ideas to life.
           </p>
-          <div className="mt-10 flex justify-center md:justify-start">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-6 md:justify-start">
             <Link to="/about" className="tunis-btn h-[46px]">
               More about me
               <span className="tunis-btn-arrow">
                 <FiArrowRight />
               </span>
             </Link>
+            <Socials />
           </div>
         </motion.div>
       </div>

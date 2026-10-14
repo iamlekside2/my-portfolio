@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiExternalLink, FiX } from "react-icons/fi";
+import { FiExternalLink, FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import PageShell from "../components/tunis/PageShell";
 import { projects } from "../constants";
 import { TProject } from "../types";
@@ -26,6 +26,21 @@ const SLUGS: Record<string, string> = {
   "Oladele Oyelola Foundation": "oladele",
   "Raya Elite Cleaning": "rayaelite",
   RealCousins: "realcousins",
+  "CalmGlobal Technologies": "calmglobal",
+  GMBJet: "gmbjet",
+  ReinstateBoost: "reinstateboost",
+  "Press Featured": "pressfeatured",
+  "Eniwo Egbeme": "eniwoegbeme",
+  "RCCG Jubilee House": "rccgjubilee",
+  "DUMAAC Projects": "dumaac",
+  "Xmage Photography": "xmage",
+  "St John's Catholic Hospital Kabba": "stjohns",
+  "Kanary Ancillaries": "kanary",
+  "Great Ife Alumni Canada": "greatife",
+  "Okun Development Association": "okundev",
+  "Ayetoro Gbede Global Network": "ayetoro",
+  "Beyond Healthcare Fertility": "beyondhealth",
+  "IASSS Iyara": "iasss",
 };
 
 const tileImage = (p: TProject) =>
@@ -35,12 +50,27 @@ const PortfolioPage = () => {
   const categories = ["All", ...new Set(projects.map((p) => p.category))];
   const [active, setActive] = useState("All");
   const [selected, setSelected] = useState<TProject | null>(null);
-  const shown = projects.filter((p) => active === "All" || p.category === active);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const shown = projects.filter(
+    (p) =>
+      active === "All" ||
+      p.category === active ||
+      p.extraCategories?.includes(active)
+  );
+
+  useEffect(() => {
+    trackRef.current?.scrollTo({ left: 0 });
+  }, [active]);
+
+  const nudge = (dir: number) => {
+    const track = trackRef.current;
+    if (track) track.scrollBy({ left: dir * track.clientWidth * 0.85, behavior: "smooth" });
+  };
 
   return (
     <PageShell ghost="Works" first="My" second="Portfolio">
       {/* Filter tabs */}
-      <div className="mb-12 flex flex-wrap justify-center gap-3">
+      <div className="mb-10 flex flex-wrap justify-center gap-3">
         {categories.map((c) => (
           <button
             key={c}
@@ -56,22 +86,45 @@ const PortfolioPage = () => {
         ))}
       </div>
 
-      {/* Grid */}
-      <motion.div layout className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
+      <div className="mb-4 text-center text-[12px] uppercase tracking-widest text-secondary">
+        {shown.length} project{shown.length === 1 ? "" : "s"} — swipe or use the
+        arrows
+      </div>
+
+      {/* Slider */}
+      <div className="relative">
+        <button
+          aria-label="Previous projects"
+          onClick={() => nudge(-1)}
+          className="absolute -left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full shadow-lg md:flex"
+          style={{ background: "var(--color-accent)", color: "#111" }}
+        >
+          <FiChevronLeft size={22} />
+        </button>
+        <button
+          aria-label="Next projects"
+          onClick={() => nudge(1)}
+          className="absolute -right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full shadow-lg md:flex"
+          style={{ background: "var(--color-accent)", color: "#111" }}
+        >
+          <FiChevronRight size={22} />
+        </button>
+
+        <div
+          ref={trackRef}
+          className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4"
+        >
           {shown.map((p) => {
             const img = tileImage(p);
             return (
               <motion.button
-                layout
                 key={p.name}
                 type="button"
                 onClick={() => setSelected(p)}
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.92 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
-                className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-2xl text-left"
+                className="group relative aspect-[4/3] w-[280px] shrink-0 snap-start cursor-pointer overflow-hidden rounded-2xl text-left sm:w-[340px]"
                 style={{ background: "var(--color-tertiary)" }}
               >
                 {img ? (
@@ -89,11 +142,16 @@ const PortfolioPage = () => {
                     >
                       {p.name.charAt(0)}
                     </span>
-                    <span className="px-4 text-center text-[13px] font-semibold text-secondary">
-                      {p.name}
-                    </span>
                   </div>
                 )}
+                {/* Name bar */}
+                <div
+                  className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 px-4 py-2.5 text-[12px] font-bold uppercase tracking-wider"
+                  style={{ background: "rgba(17,17,17,0.85)", color: "#fff" }}
+                >
+                  <span className="truncate">{p.name}</span>
+                  <span style={{ color: "var(--color-accent)" }}>↗</span>
+                </div>
                 <div className="tile-overlay p-5 text-center">
                   <span className="text-[17px] font-extrabold uppercase tracking-wide">
                     {p.name}
@@ -102,18 +160,11 @@ const PortfolioPage = () => {
                     View details
                   </span>
                 </div>
-                {/* Always-visible name bar on touch devices (no hover) */}
-                <div
-                  className="absolute inset-x-0 bottom-0 px-4 py-2 text-[12px] font-bold uppercase tracking-wider md:hidden"
-                  style={{ background: "rgba(17,17,17,0.82)", color: "#fff" }}
-                >
-                  {p.name}
-                </div>
               </motion.button>
             );
           })}
-        </AnimatePresence>
-      </motion.div>
+        </div>
+      </div>
 
       {/* Detail modal */}
       <AnimatePresence>

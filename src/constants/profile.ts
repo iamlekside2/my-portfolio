@@ -8,6 +8,8 @@ export const personalInfo: { label: string; value: string; accent?: boolean }[] 
   { label: 'Languages', value: 'English' },
   { label: 'Email', value: 'horllyk12@gmail.com' },
   { label: 'GitHub', value: 'iamlekside2' },
+  { label: 'Turnaround', value: 'Very fast delivery', accent: true },
+  { label: 'WhatsApp', value: '0706 873 6818' },
 ];
 
 export const stats = [
@@ -23,9 +25,12 @@ export const skills = [
   { name: 'TypeScript', level: 85 },
   { name: 'React', level: 92 },
   { name: 'Next.js', level: 85 },
+  { name: 'React Native / Expo', level: 82 },
   { name: 'Redux Toolkit', level: 85 },
   { name: 'Tailwind CSS', level: 92 },
   { name: 'WordPress', level: 90 },
-  { name: 'React Native / Expo', level: 80 },
-  { name: 'Three.js', level: 70 },
+  { name: 'Node.js', level: 80 },
+  { name: 'PostgreSQL / Prisma', level: 75 },
+  { name: 'MySQL', level: 75 },
+  { name: 'REST APIs', level: 88 },
 ];

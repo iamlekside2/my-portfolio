@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { FiMail, FiGithub } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import PageShell from "../components/tunis/PageShell";
+import Socials from "../components/tunis/Socials";
 import { config } from "../constants/config";
 
 // Lazy-loaded: pulls in three.js (EarthCanvas), which shouldn't weigh down
@@ -64,6 +65,10 @@ const ContactPage = () => (
           </div>
         </div>
       ))}
+    </div>
+
+    <div className="mb-14 flex justify-center">
+      <Socials />
     </div>
 
     {/* The battle-tested contact form (kept from the previous design) */}

@@ -70,7 +70,7 @@ export const config: TConfig = {
     about: {
       p: 'Introduction',
       h2: 'Overview.',
-      content: `I'm Olamilekan Olakunle, a passionate software developer with strong expertise in TypeScript, JavaScript, and frameworks like React, Next.js, Three.js, as well as WordPress. I build efficient, scalable, and user-friendly solutions that solve real-world problems. I learn fast, adapt quickly, and collaborate closely with clients to bring their ideas to life.`,
+      content: `I'm Olamilekan Olakunle, a passionate software developer with strong expertise in TypeScript, JavaScript, React, Next.js, React Native and WordPress, backed by Node.js and database skills. I build efficient, scalable, and user-friendly solutions that solve real-world problems — and I'm known for very fast turnaround: I deliver tasks quickly without cutting corners. I learn fast, adapt quickly, and collaborate closely with clients to bring their ideas to life.`,
     },
     experience: {
       p: 'What I have done so far',

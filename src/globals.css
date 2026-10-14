@@ -437,3 +437,12 @@ body {
 h1, h2, h3, .ghost-title, .tunis-btn {
   font-family: 'Poppins', 'Space Grotesk', sans-serif;
 }
+
+/* Hide scrollbar on the portfolio slider track */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
