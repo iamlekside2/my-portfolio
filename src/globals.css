@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,29 +9,29 @@
    Navy + Gold + White — The Royal palette
    ═══════════════════════════════════════════ */
 :root, .dark {
-  --color-primary: #0a0e1a;
-  --color-secondary: #9ca3b8;
-  --color-tertiary: #111827;
-  --color-accent: #d4af37;
-  --color-accent-secondary: #1a56db;
-  --color-black-100: #0d1117;
-  --color-black-200: #070b14;
+  --color-primary: #111111;
+  --color-secondary: #a8a8a8;
+  --color-tertiary: #1d1d1d;
+  --color-accent: #ffb400;
+  --color-accent-secondary: #ffb400;
+  --color-black-100: #161616;
+  --color-black-200: #0d0d0d;
   --color-white-100: #f0f0f0;
-  --color-surface: rgba(17, 24, 39, 0.6);
-  --color-surface-elevated: rgba(17, 24, 39, 0.85);
-  --color-muted: #6b7280;
-  --shadow-card: rgba(212, 175, 55, 0.08);
-  --glass-bg: rgba(10, 14, 26, 0.5);
-  --glass-border: rgba(212, 175, 55, 0.12);
+  --color-surface: rgba(29, 29, 29, 0.6);
+  --color-surface-elevated: rgba(29, 29, 29, 0.85);
+  --color-muted: #7a7a7a;
+  --shadow-card: rgba(255, 180, 0, 0.08);
+  --glass-bg: rgba(17, 17, 17, 0.5);
+  --glass-border: rgba(255, 180, 0, 0.14);
   --text-primary: #ffffff;
-  --text-secondary: #9ca3b8;
-  --nav-bg: rgba(10, 14, 26, 0.85);
-  --gradient-start: #d4af37;
-  --gradient-end: #1a56db;
-  --gold: #d4af37;
-  --gold-light: #f0d060;
-  --royal-blue: #1a56db;
-  --navy: #0a0e1a;
+  --text-secondary: #a8a8a8;
+  --nav-bg: rgba(17, 17, 17, 0.85);
+  --gradient-start: #ffb400;
+  --gradient-end: #ffcf4d;
+  --gold: #ffb400;
+  --gold-light: #ffcf4d;
+  --royal-blue: #ffb400;
+  --navy: #111111;
   color-scheme: dark;
 }
 
@@ -39,11 +39,11 @@
    LIGHT THEME — Pristine white kit, golden trim
    ═══════════════════════════════════════════ */
 .light {
-  --color-primary: #faf9f6;
+  --color-primary: #f7f7f7;
   --color-secondary: #4a5568;
-  --color-tertiary: #f1f0eb;
-  --color-accent: #b8941f;
-  --color-accent-secondary: #1a47b8;
+  --color-tertiary: #ececec;
+  --color-accent: #e5a200;
+  --color-accent-secondary: #e5a200;
   --color-black-100: #eae8e1;
   --color-black-200: #e0ddd5;
   --color-white-100: #0a0e1a;
@@ -338,4 +338,102 @@ body {
       -2.6em 0em 0 0em rgba(212, 175, 55, 0.2),
       -1.8em -1.8em 0 0em rgba(212, 175, 55, 0.2);
   }
+}
+
+/* ═══════════════════════════════════════════
+   TUNIS-INSPIRED REDESIGN
+   ═══════════════════════════════════════════ */
+.ghost-title {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: clamp(64px, 12vw, 160px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.07);
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.light .ghost-title {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.07);
+}
+
+.tunis-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  padding-left: 28px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  overflow: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.tunis-btn .tunis-btn-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  margin-left: 22px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #111;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.tunis-btn:hover {
+  background: var(--color-accent);
+  color: #111;
+}
+
+.skill-track {
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+.light .skill-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+.skill-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+.info-chip {
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  background: var(--color-surface);
+  padding: 18px 20px;
+}
+
+.tile-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 180, 0, 0.92);
+  color: #111;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.group:hover .tile-overlay { opacity: 1; }
+
+/* Tunis-style heading font: heavy Poppins for titles, Space Grotesk for body */
+h1, h2, h3, .ghost-title, .tunis-btn {
+  font-family: 'Poppins', 'Space Grotesk', sans-serif;
 }

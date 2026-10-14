@@ -20,6 +20,7 @@ export type TTestimonial = {
 
 export type TProject = {
   description: string;
+  category: string;
   tags: {
     name: string;
     color: string;

@@ -1,24 +1,37 @@
-import { BrowserRouter } from "react-router-dom";
-
-import {
-  About,
-  Contact,
-  Experience,
-  Feedbacks,
-  Hero,
-  Navbar,
-  Tech,
-  Works,
-  StarsCanvas,
-} from "./components";
 import { useEffect } from "react";
-import { config } from "./constants/config";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { Toaster } from "react-hot-toast";
+
+import { config } from "./constants/config";
 import { ThemeProvider } from "./context/ThemeContext";
-import FloatingOrbs from "./components/layout/FloatingOrbs";
-import HeroBackground from "./components/layout/HeroBackground";
-import MadridCrest from "./components/layout/MadridCrest";
-import EagleMark from "./components/layout/EagleMark";
+import ThemeToggle from "./components/layout/ThemeToggle";
+import SideNav from "./components/tunis/SideNav";
+import FloatingMessage from "./components/tunis/FloatingMessage";
+import Home from "./pages/Home";
+import AboutPage from "./pages/AboutPage";
+import PortfolioPage from "./pages/PortfolioPage";
+import ContactPage from "./pages/ContactPage";
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/portfolio" element={<PortfolioPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
 
 const App = () => {
   useEffect(() => {
@@ -31,48 +44,19 @@ const App = () => {
     <ThemeProvider>
       <BrowserRouter>
         <Toaster position="top-right" />
-        <FloatingOrbs />
-
-        <div className="bg-primary relative z-0 transition-colors duration-500">
-          <div className="relative">
-            <HeroBackground />
-            <Navbar />
-            <Hero />
+        <div
+          className="relative z-0 min-h-screen transition-colors duration-500"
+          style={{ background: "var(--color-primary)", color: "var(--text-primary)" }}
+        >
+          <div className="fixed left-5 top-5 z-50">
+            <ThemeToggle />
           </div>
-          <div className="section-divider mx-auto max-w-7xl" />
-          <About />
-          <div className="section-divider mx-auto max-w-7xl" />
-          <Experience />
-          <div className="section-divider mx-auto max-w-7xl" />
-          <Tech />
-          <div className="section-divider mx-auto max-w-7xl" />
-          <Works />
-          <div className="section-divider mx-auto max-w-7xl" />
-          <Feedbacks />
-          <div className="section-divider mx-auto max-w-7xl" />
-          <div className="relative z-0">
-            <Contact />
-            <StarsCanvas />
-          </div>
-
-          <footer className="glass relative z-10 py-8 text-center">
-            <div className="flex items-center justify-center gap-4 mb-3">
-              <MadridCrest size={20} className="opacity-40 hover:opacity-80 transition-opacity duration-300" />
-              <EagleMark size={22} className="opacity-40 hover:opacity-80 transition-opacity duration-300" />
-              <span
-                className="font-mono text-[16px] font-black opacity-40 hover:opacity-80 transition-opacity duration-300"
-                style={{ color: "var(--color-accent)" }}
-              >
-                CR7
-              </span>
-            </div>
-            <p className="text-secondary text-[14px]">
-              Built with passion by{" "}
-              <span className="accent-text-gradient font-semibold">
-                {config.html.fullName}
-              </span>
-            </p>
-            <div className="neon-line mx-auto mt-4 max-w-xs" />
+          <SideNav />
+          <FloatingMessage />
+          <AnimatedRoutes />
+          <footer className="pb-24 pt-4 text-center text-[12px] text-secondary md:pb-8">
+            © {new Date().getFullYear()} {config.html.fullName}. All rights
+            reserved.
           </footer>
         </div>
       </BrowserRouter>

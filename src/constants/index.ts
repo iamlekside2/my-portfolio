@@ -27,11 +27,8 @@ import {
   // websites,
   threejs,
 } from '../assets';
-import africanproverbs from '../assets/africanproverbs.png';
-import nexalife from '../assets/nexalife.png';
-import comcin from '../assets/comcin.png';
-import urcalls from '../assets/urcalls.png';
-import websites from '../assets/websites.png';
+// Project tile images now come from src/assets/projects/*.png (live-site
+// screenshots globbed in PortfolioPage); the legacy imports are gone.
 
 export const navLinks: TNavLink[] = [
   {
@@ -238,9 +235,15 @@ const testimonials: TTestimonial[] = [
   },
 ];
 
+const WEB_APPS = 'Web Apps & Dashboards';
+const WORDPRESS = 'WordPress Sites';
+const MOBILE = 'Mobile';
+
 const projects: TProject[] = [
+  // ── Web Apps & Dashboards ──
   {
     name: 'COMCIN Project',
+    category: WEB_APPS,
     description:
       'Web application for managing COMCIN workflows, including user dashboards, multi-step forms, and API integrations to streamline operations.',
     tags: [
@@ -248,22 +251,24 @@ const projects: TProject[] = [
       { name: 'redux', color: 'green-text-gradient' },
       { name: 'tailwind', color: 'pink-text-gradient' },
     ],
-    image: comcin,
+    image: '',
     sourceCodeLink: 'https://comcin.com.ng/',
   },
   {
     name: 'UrCalls Admin Dashboard',
+    category: WEB_APPS,
     description:
       'Admin dashboard for UrCalls to manage users, subscriptions, payments, and role-based permissions, built with React and integrated with multiple payment APIs.',
     tags: [
       { name: 'react', color: 'blue-text-gradient' },
       { name: 'redux', color: 'pink-text-gradient' },
     ],
-    image: urcalls,
-    sourceCodeLink: 'https://urcalls.com/', // replace
+    image: '',
+    sourceCodeLink: 'https://urcalls.com/',
   },
   {
     name: 'Nexalife Care (Patient Tracker)',
+    category: WEB_APPS,
     description:
       'Patient referral and tracking system for Nexalife Care with real-time dashboards, multi-step forms, and API integration to manage patient data efficiently.',
     tags: [
@@ -271,11 +276,38 @@ const projects: TProject[] = [
       { name: 'tailwind', color: 'green-text-gradient' },
       { name: 'api', color: 'pink-text-gradient' },
     ],
-    image: nexalife,
+    image: '',
     sourceCodeLink: 'https://nexalifecare.com/',
   },
   {
+    name: 'HRRP',
+    category: WEB_APPS,
+    description:
+      'HR platform for CalmGlobal covering staff records, workflows, and reporting, built with React and role-based access control.',
+    tags: [
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'typescript', color: 'green-text-gradient' },
+      { name: 'api', color: 'pink-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://hrrp.calmglobal.com/',
+  },
+  {
+    name: 'KPI Platform',
+    category: WEB_APPS,
+    description:
+      'KPI tracking and reporting platform for CalmGlobal with dashboards, targets, and performance analytics across teams.',
+    tags: [
+      { name: 'react', color: 'blue-text-gradient' },
+      { name: 'typescript', color: 'green-text-gradient' },
+      { name: 'dashboards', color: 'pink-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://kpi.calmglobal.com/login',
+  },
+  {
     name: 'Church Dashboard',
+    category: WEB_APPS,
     description:
       'Dashboard for church management including event scheduling, member tracking, and notifications, providing an easy-to-use admin interface.',
     tags: [
@@ -288,6 +320,7 @@ const projects: TProject[] = [
   },
   {
     name: 'AfricanProverbs',
+    category: WEB_APPS,
     description:
       'Web platform showcasing African proverbs with search, filtering, and dynamic UI features, developed for educational and cultural engagement.',
     tags: [
@@ -295,20 +328,95 @@ const projects: TProject[] = [
       { name: 'nextjs', color: 'green-text-gradient' },
       { name: 'tailwind', color: 'pink-text-gradient' },
     ],
-    image: africanproverbs,
-    sourceCodeLink: 'https://africanproverbs.com/', // replace
+    image: '',
+    sourceCodeLink: 'https://africanproverbs.com/',
   },
+  // ── WordPress Sites ──
   {
-    name: 'Freelance Websites',
+    name: 'AeroCruise Travels',
+    category: WORDPRESS,
     description:
-      'Designed and developed multiple WordPress and custom websites for hospitals, businesses, and personal portfolios, handling both frontend design and backend setup.',
+      'Travel and tours agency website with destination showcases, booking enquiries, and a fully responsive design.',
     tags: [
       { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'php', color: 'green-text-gradient' },
-      { name: 'elementor', color: 'pink-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
     ],
-    image: websites,
-    sourceCodeLink: 'https://www.pressfeatured.com/',
+    image: '',
+    sourceCodeLink: 'https://aerocruisetravelsng.com/',
+  },
+  {
+    name: 'RostrumSec',
+    category: WORDPRESS,
+    description:
+      'Corporate website for a security company, with service pages, enquiry forms, and SEO-optimized content.',
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://rostrumsec.com/',
+  },
+  {
+    name: 'Tyndale Securities',
+    category: WORDPRESS,
+    description:
+      'Corporate website with service listings, company profile, and contact flows, built and maintained on WordPress.',
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://tyndale-securities.com/',
+  },
+  {
+    name: 'TomilTrust Limited',
+    category: WORDPRESS,
+    description:
+      'Corporate website for TomilTrust Limited with brand-focused design, service pages, and enquiry handling.',
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://tomiltrustlimited.com/',
+  },
+  {
+    name: 'Oladele Oyelola Foundation',
+    category: WORDPRESS,
+    description:
+      'NGO / foundation website presenting programmes, impact stories, and donation and contact channels.',
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://oladeleoyelolafoundation.org/',
+  },
+  {
+    name: 'Raya Elite Cleaning',
+    category: WORDPRESS,
+    description:
+      'Home and office cleaning services website with service breakdowns, quote requests, and local SEO setup.',
+    tags: [
+      { name: 'wordpress', color: 'blue-text-gradient' },
+      { name: 'elementor', color: 'green-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://rayaelitehomesandofficescleaningservices.com/',
+  },
+  // ── Mobile ──
+  {
+    name: 'RealCousins',
+    category: MOBILE,
+    description:
+      'Family-tree platform connecting relatives — web app plus React Native / Expo mobile app with shared backend.',
+    tags: [
+      { name: 'react-native', color: 'blue-text-gradient' },
+      { name: 'expo', color: 'green-text-gradient' },
+      { name: 'api', color: 'pink-text-gradient' },
+    ],
+    image: '',
+    sourceCodeLink: 'https://realcousins.com/',
   },
 ];
 

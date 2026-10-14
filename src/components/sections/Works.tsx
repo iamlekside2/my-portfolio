@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-import { github } from "../../assets";
 import { SectionWrapper } from "../../hoc";
 import { projects } from "../../constants";
 import { fadeIn } from "../../utils/motion";
@@ -54,18 +53,20 @@ const ProjectCard: React.FC<{ index: number } & TProject> = ({
                 "linear-gradient(90deg, transparent, var(--color-accent), transparent)",
             }}
           />
-          <div className="absolute inset-0 m-3 flex justify-end">
-            <div
-              onClick={() => window.open(sourceCodeLink, "_blank")}
-              className="glass flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-all duration-300 hover:scale-110 hover:shadow-glow"
-            >
-              <img
-                src={github}
-                alt="github"
-                className="h-1/2 w-1/2 object-contain"
-              />
+          {sourceCodeLink && (
+            <div className="absolute inset-0 m-3 flex justify-end">
+              <a
+                href={sourceCodeLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`Visit ${name}`}
+                className="glass flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-[18px] font-bold no-underline transition-all duration-300 hover:scale-110 hover:shadow-glow"
+                style={{ color: "var(--color-accent)" }}
+              >
+                ↗
+              </a>
             </div>
-          </div>
+          )}
           {/* Personality watermark in bottom-left of image */}
           <div className="absolute bottom-2 left-3 opacity-25 group-hover:opacity-50 transition-opacity duration-300">
             {index % 3 === 0 ? (
@@ -127,11 +128,40 @@ const Works = () => {
         </motion.p>
       </div>
 
-      <div className="mt-20 flex flex-wrap gap-7">
-        {projects.map((project, index) => (
-          <ProjectCard key={`project-${index}`} index={index} {...project} />
-        ))}
-      </div>
+      {[...new Set(projects.map((p) => p.category))].map((category) => (
+        <div key={category} className="mt-16">
+          <motion.div
+            variants={fadeIn("", "", 0.1, 1)}
+            className="flex items-center gap-4"
+          >
+            <h3
+              className="text-[20px] font-bold uppercase tracking-wider"
+              style={{ color: "var(--color-accent)" }}
+            >
+              {category}
+            </h3>
+            <div
+              className="h-[1px] flex-1"
+              style={{
+                background:
+                  "linear-gradient(90deg, var(--color-accent), transparent)",
+                opacity: 0.35,
+              }}
+            />
+          </motion.div>
+          <div className="mt-8 flex flex-wrap gap-7">
+            {projects
+              .filter((p) => p.category === category)
+              .map((project, index) => (
+                <ProjectCard
+                  key={`project-${project.name}`}
+                  index={index}
+                  {...project}
+                />
+              ))}
+          </div>
+        </div>
+      ))}
     </>
   );
 };
