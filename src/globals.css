@@ -446,3 +446,11 @@ h1, h2, h3, .ghost-title, .tunis-btn {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Button arrow micro-interaction */
+.tunis-btn .tunis-btn-arrow {
+  transition: transform 0.3s ease;
+}
+.tunis-btn:hover .tunis-btn-arrow {
+  transform: translateX(5px);
+}

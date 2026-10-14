@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import PageShell from "../components/tunis/PageShell";
+import CountUp from "../components/tunis/CountUp";
 import { personalInfo, stats, skills } from "../constants/profile";
 import { experiences } from "../constants";
 import { config } from "../constants/config";
@@ -54,8 +55,7 @@ const AboutPage = () => (
               className="text-[38px] font-extrabold leading-none"
               style={{ color: "var(--color-accent)" }}
             >
-              {s.value}
-              <span className="text-[26px]">{s.suffix}</span>
+              <CountUp target={parseInt(s.value, 10)} suffix={s.suffix} />
             </div>
             <div className="mt-3 text-[12px] uppercase tracking-wider text-secondary">
               {s.label}
