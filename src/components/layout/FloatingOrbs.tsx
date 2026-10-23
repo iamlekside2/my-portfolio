@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 
 const FloatingOrbs = () => {
@@ -8,7 +8,7 @@ const FloatingOrbs = () => {
   return (
     <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
       {/* Gold orb — top left */}
-      <motion.div
+      <m.div
         animate={{
           x: [0, 100, -50, 0],
           y: [0, -80, 60, 0],
@@ -23,7 +23,7 @@ const FloatingOrbs = () => {
         }}
       />
       {/* Blue orb — right */}
-      <motion.div
+      <m.div
         animate={{
           x: [0, -120, 80, 0],
           y: [0, 100, -60, 0],
@@ -38,7 +38,7 @@ const FloatingOrbs = () => {
         }}
       />
       {/* Gold orb — bottom center */}
-      <motion.div
+      <m.div
         animate={{
           x: [0, 60, -80, 0],
           y: [0, -50, 100, 0],

@@ -1,18 +1,18 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <motion.button
+    <m.button
       onClick={toggleTheme}
       className="glass relative flex h-10 w-10 items-center justify-center rounded-full"
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.9 }}
       aria-label="Toggle theme"
     >
-      <motion.div
+      <m.div
         initial={false}
         animate={{ rotate: theme === "dark" ? 0 : 180 }}
         transition={{ duration: 0.5, type: "spring" }}
@@ -34,8 +34,8 @@ const ThemeToggle = () => {
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
         )}
-      </motion.div>
-    </motion.button>
+      </m.div>
+    </m.button>
   );
 };
 

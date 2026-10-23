@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { m } from "framer-motion";
 import { FiArrowRight } from 'react-icons/fi';
 import PageTransition from '../components/tunis/PageTransition';
 import { useIsFirstPage } from '../components/tunis/useIsFirstPage';
@@ -47,7 +47,7 @@ const Home = () => {
     <PageTransition>
       <div className="mx-auto max-w-6xl px-6 pb-28 pt-24 md:pl-10 md:pr-28 2xl:pr-10">
         {/* ── Hero ───────────────────────────────────────────── */}
-        <motion.section
+        <m.section
           variants={container}
           // Same reason as PageTransition: the stagger starts from opacity 0,
           // which would hide the hero in the prerendered HTML until hydration.
@@ -55,22 +55,22 @@ const Home = () => {
           animate="show"
           className="min-h-[72vh] py-10"
         >
-          <motion.div variants={item} className="mb-7 flex items-center gap-3">
+          <m.div variants={item} className="mb-7 flex items-center gap-3">
             <LeksIdeMark size={34} decorative />
             <span className="text-[12px] font-bold uppercase tracking-[0.3em] text-secondary">
               Technology Studio
             </span>
-          </motion.div>
+          </m.div>
 
-          <motion.h1
+          <m.h1
             variants={item}
             className="max-w-4xl text-[34px] font-extrabold leading-[1.12] md:text-[58px]"
           >
             We build digital solutions that{' '}
             <span style={{ color: 'var(--color-accent)' }}>move businesses forward.</span>
-          </motion.h1>
+          </m.h1>
 
-          <motion.p variants={item} className="mt-4 text-[17px] font-semibold md:text-[20px]">
+          <m.p variants={item} className="mt-4 text-[17px] font-semibold md:text-[20px]">
             <span className="text-secondary">We build </span>
             <Typewriter
               words={[
@@ -81,9 +81,9 @@ const Home = () => {
                 'custom software',
               ]}
             />
-          </motion.p>
+          </m.p>
 
-          <motion.p
+          <m.p
             variants={item}
             className="mt-7 max-w-2xl text-[15px] leading-[1.95] text-secondary md:text-[16px]"
           >
@@ -91,9 +91,9 @@ const Home = () => {
             — in the US, the UK and across Nigeria — on the systems that carry real operational
             weight: the dashboard your team runs on, the platform your customers log into, the site
             that has to earn their trust first.
-          </motion.p>
+          </m.p>
 
-          <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-5">
+          <m.div variants={item} className="mt-10 flex flex-wrap items-center gap-5">
             <Link to="/contact" className="tunis-btn h-[48px]">
               Start a project
               <span className="tunis-btn-arrow">
@@ -106,8 +106,8 @@ const Home = () => {
             >
               See selected work
             </Link>
-          </motion.div>
-        </motion.section>
+          </m.div>
+        </m.section>
 
         {/* ── Services ───────────────────────────────────────── */}
         <section className="py-20" id="services">

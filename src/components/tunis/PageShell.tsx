@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import PageTransition from "./PageTransition";
 
 /** Tunis-style page: huge ghost word behind a two-tone heading. */
@@ -23,12 +23,12 @@ const PageShell = ({
     <PageTransition>
       <div className="mx-auto max-w-6xl px-6 pb-28 pt-16 md:pl-10 md:pr-28 md:pt-20 2xl:pr-10">
         <div className="relative mb-14 flex h-[120px] items-center justify-center md:h-[150px]">
-          <motion.span
+          <m.span
             style={{ y: ghostY, x: "-50%", opacity: ghostOpacity }}
             className="ghost-title"
           >
             {ghost}
-          </motion.span>
+          </m.span>
           <h1 className="relative z-10 text-center text-[34px] font-extrabold uppercase tracking-wide md:text-[52px]">
             {first}{" "}
             <span style={{ color: "var(--color-accent)" }}>{second}</span>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { FiMessageCircle, FiX, FiMail, FiArrowRight } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import { config } from "../../constants/config";
@@ -38,7 +38,7 @@ const FloatingMessage = () => {
     <div className="fixed bottom-20 right-4 z-50 flex flex-col items-end gap-3 md:bottom-8 md:right-24">
       <AnimatePresence>
         {open && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 16, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.96 }}
@@ -88,7 +88,7 @@ const FloatingMessage = () => {
                 <FiArrowRight aria-hidden />
               </Link>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 

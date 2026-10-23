@@ -1,5 +1,5 @@
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 import { styles } from "../../constants/styles";
 import { textVariant } from "../../utils/motion";
@@ -19,9 +19,9 @@ export const Header: React.FC<IHeader> = ({ useMotion, p, h2 }) => {
   );
 
   return useMotion === true ? (
-    <motion.div variants={textVariant()}>
+    <m.div variants={textVariant()}>
       <Content />
-    </motion.div>
+    </m.div>
   ) : (
     <Content />
   );

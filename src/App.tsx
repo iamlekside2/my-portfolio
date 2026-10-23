@@ -1,17 +1,17 @@
-import { useEffect, useRef, Suspense } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence, MotionConfig } from "framer-motion";
-import { NavDirectionContext } from "./components/tunis/direction";
+import { useEffect, useRef, Suspense } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, MotionConfig, LazyMotion, domAnimation } from 'framer-motion';
+import { NavDirectionContext } from './components/tunis/direction';
 
-import { SITE_URL, BRAND, metaForPath } from "./constants/seo";
-import { ThemeProvider } from "./context/ThemeContext";
-import SiteHeader from "./components/layout/SiteHeader";
-import SideNav from "./components/tunis/SideNav";
-import FloatingMessage from "./components/tunis/FloatingMessage";
-import type { PageSet } from "./pageSet";
+import { SITE_URL, BRAND, metaForPath } from './constants/seo';
+import { ThemeProvider } from './context/ThemeContext';
+import SiteHeader from './components/layout/SiteHeader';
+import SideNav from './components/tunis/SideNav';
+import FloatingMessage from './components/tunis/FloatingMessage';
+import type { PageSet } from './pageSet';
 
 /** Drives the direction of the page-slide transition. */
-const ROUTE_ORDER = ["/", "/services", "/portfolio", "/about", "/contact"];
+const ROUTE_ORDER = ['/', '/services', '/portfolio', '/about', '/contact'];
 
 /** Keeps head tags in step with client-side navigation. The prerendered HTML
  *  already carries the correct tags for the first load. */
@@ -25,11 +25,11 @@ const useRouteMeta = (pathname: string) => {
     const meta = metaForPath(pathname);
     const url = `${SITE_URL}${pathname}`;
     document.title = meta.title;
-    setTag('meta[name="description"]', "content", meta.description);
-    setTag('meta[property="og:title"]', "content", meta.title);
-    setTag('meta[property="og:description"]', "content", meta.description);
-    setTag('meta[property="og:url"]', "content", url);
-    setTag('link[rel="canonical"]', "href", url);
+    setTag('meta[name="description"]', 'content', meta.description);
+    setTag('meta[property="og:title"]', 'content', meta.title);
+    setTag('meta[property="og:description"]', 'content', meta.description);
+    setTag('meta[property="og:url"]', 'content', url);
+    setTag('link[rel="canonical"]', 'href', url);
   }, [pathname]);
 };
 
@@ -76,29 +76,40 @@ const AnimatedRoutes = ({ pages }: { pages: PageSet }) => {
  */
 const App = ({ pages }: { pages: PageSet }) => (
   <ThemeProvider>
-    <MotionConfig reducedMotion="user">
-      <div
-        className="relative z-0 min-h-screen transition-colors duration-500"
-        style={{ background: "var(--color-primary)", color: "var(--text-primary)" }}
-      >
-        <a href="#main" className="skip-link">
-          Skip to content
-        </a>
-        <SiteHeader />
-        <SideNav />
-        <FloatingMessage />
-        <div id="main">
-          <AnimatedRoutes pages={pages} />
-        </div>
-        <footer
-          className="border-t pb-24 pt-8 text-center text-[12px] text-secondary md:pb-8"
-          style={{ borderColor: "var(--glass-border)" }}
+    {/*
+      `domAnimation` is the subset framer-motion actually needs here:
+      animations, variants, exit, and the hover/tap/focus gestures. It
+      excludes drag, pan and layout animation, none of which this site
+      uses. Paired with importing `m` instead of `motion` everywhere, that
+      takes the library from 35.4KB gzipped to roughly half.
+
+      `strict` makes a stray `motion.div` throw rather than quietly pulling
+      the full feature set back into the bundle and undoing this.
+    */}
+    <LazyMotion features={domAnimation} strict>
+      <MotionConfig reducedMotion="user">
+        <div
+          className="relative z-0 min-h-screen transition-colors duration-500"
+          style={{ background: 'var(--color-primary)', color: 'var(--text-primary)' }}
         >
-          © {new Date().getFullYear()} {BRAND} — Technology Studio. All rights
-          reserved.
-        </footer>
-      </div>
-    </MotionConfig>
+          <a href="#main" className="skip-link">
+            Skip to content
+          </a>
+          <SiteHeader />
+          <SideNav />
+          <FloatingMessage />
+          <div id="main">
+            <AnimatedRoutes pages={pages} />
+          </div>
+          <footer
+            className="border-t pb-24 pt-8 text-center text-[12px] text-secondary md:pb-8"
+            style={{ borderColor: 'var(--glass-border)' }}
+          >
+            © {new Date().getFullYear()} {BRAND} — Technology Studio. All rights reserved.
+          </footer>
+        </div>
+      </MotionConfig>
+    </LazyMotion>
   </ThemeProvider>
 );
 

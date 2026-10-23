@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ReactNode } from "react";
 import { useNavDirection } from "./direction";
 import { useIsFirstPage } from "./useIsFirstPage";
@@ -23,7 +23,7 @@ const PageTransition = ({ children }: { children: ReactNode }) => {
   const dir = useNavDirection();
   const isFirstPage = useIsFirstPage();
   return (
-    <motion.main
+    <m.main
       custom={dir}
       variants={variants}
       // `false` renders the `center` state directly, so the prerendered HTML
@@ -34,7 +34,7 @@ const PageTransition = ({ children }: { children: ReactNode }) => {
       className="min-h-screen"
     >
       {children}
-    </motion.main>
+    </m.main>
   );
 };
 
