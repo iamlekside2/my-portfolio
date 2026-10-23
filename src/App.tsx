@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 import { NavDirectionContext } from "./components/tunis/direction";
@@ -8,13 +8,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import SiteHeader from "./components/layout/SiteHeader";
 import SideNav from "./components/tunis/SideNav";
 import FloatingMessage from "./components/tunis/FloatingMessage";
-import Home from "./pages/Home";
-import ServicesPage from "./pages/ServicesPage";
-import AboutPage from "./pages/AboutPage";
-import PortfolioPage from "./pages/PortfolioPage";
-import CaseStudyPage from "./pages/CaseStudyPage";
-import ContactPage from "./pages/ContactPage";
-import NotFoundPage from "./pages/NotFoundPage";
+import type { PageSet } from "./pageSet";
 
 /** Drives the direction of the page-slide transition. */
 const ROUTE_ORDER = ["/", "/services", "/portfolio", "/about", "/contact"];
@@ -39,7 +33,7 @@ const useRouteMeta = (pathname: string) => {
   }, [pathname]);
 };
 
-const AnimatedRoutes = () => {
+const AnimatedRoutes = ({ pages }: { pages: PageSet }) => {
   const location = useLocation();
   const prevIndex = useRef(0);
   const index = Math.max(0, ROUTE_ORDER.indexOf(location.pathname));
@@ -55,15 +49,21 @@ const AnimatedRoutes = () => {
   return (
     <NavDirectionContext.Provider value={direction}>
       <AnimatePresence mode="wait" custom={direction}>
-        <Routes location={location} key={location.pathname}>
-          <Route path="/" element={<Home />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/portfolio" element={<PortfolioPage />} />
-          <Route path="/portfolio/:slug" element={<CaseStudyPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        {/* The fallback holds the viewport height so a route chunk still
+            in flight cannot collapse the page and shift what is below it.
+            On first load nothing suspends: the markup is prerendered and
+            hydration keeps it on screen. */}
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<pages.Home />} />
+            <Route path="/services" element={<pages.Services />} />
+            <Route path="/portfolio" element={<pages.Portfolio />} />
+            <Route path="/portfolio/:slug" element={<pages.CaseStudy />} />
+            <Route path="/about" element={<pages.About />} />
+            <Route path="/contact" element={<pages.Contact />} />
+            <Route path="*" element={<pages.NotFound />} />
+          </Routes>
+        </Suspense>
       </AnimatePresence>
     </NavDirectionContext.Provider>
   );
@@ -74,7 +74,7 @@ const AnimatedRoutes = () => {
  * BrowserRouter in the browser (`main.tsx`), StaticRouter when the pages are
  * prerendered (`entry-server.tsx`).
  */
-const App = () => (
+const App = ({ pages }: { pages: PageSet }) => (
   <ThemeProvider>
     <MotionConfig reducedMotion="user">
       <div
@@ -88,7 +88,7 @@ const App = () => (
         <SideNav />
         <FloatingMessage />
         <div id="main">
-          <AnimatedRoutes />
+          <AnimatedRoutes pages={pages} />
         </div>
         <footer
           className="border-t pb-24 pt-8 text-center text-[12px] text-secondary md:pb-8"
