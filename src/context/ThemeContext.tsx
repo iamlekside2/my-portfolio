@@ -10,10 +10,15 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [theme, setTheme] = useState<Theme>(() => {
-    const saved = localStorage.getItem("portfolio-theme");
-    return (saved as Theme) || "dark";
-  });
+  // Must match the class on <html> in the prerendered HTML, so the first
+  // client render agrees with the server and hydration stays clean.
+  const [theme, setTheme] = useState<Theme>("dark");
+
+  // Pick up the saved preference once we're definitely in the browser.
+  useEffect(() => {
+    const saved = localStorage.getItem("portfolio-theme") as Theme | null;
+    if (saved === "light" || saved === "dark") setTheme(saved);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;

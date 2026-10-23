@@ -29,3 +29,6 @@ dist-ssr
 # env
 .env
 
+
+# SSR bundle produced during build
+dist-ssr

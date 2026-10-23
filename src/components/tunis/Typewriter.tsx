@@ -7,7 +7,10 @@ const prefersReducedMotion = () =>
 /** Cycles through words with a typing/deleting effect and blinking cursor. */
 const Typewriter = ({ words }: { words: string[] }) => {
   const [index, setIndex] = useState(0);
-  const [len, setLen] = useState(0);
+  // Starts fully typed rather than empty: that way the first role is present
+  // in the prerendered HTML instead of an empty span. The cycle then runs
+  // normally (pause, delete, type the next one).
+  const [len, setLen] = useState(words[0]?.length ?? 0);
   const [deleting, setDeleting] = useState(false);
   const reduced = prefersReducedMotion();
 

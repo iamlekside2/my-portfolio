@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 100" role="img" aria-label="LeksIDE Technology Studio">
+<rect width="430" height="100" fill="none"/>
+<g transform="translate(0 10) scale(1.02)">
+<g stroke-linejoin="round" stroke-linecap="round">
+  <path d="M25 8 L25 62 Q25 68 31 68 L42 68 L61 49 L49 37 L37 49 L37 20 Z" fill="#FFB400"/>
+  <path d="M45 23 L68 46 L45 69 L58 69 L81 46 L58 23 Z" fill="#FFFFFF"/>
+</g></g>
+<text x="112" y="56" font-family="Inter, Arial, sans-serif" font-size="43" font-weight="750" letter-spacing="-1.8" fill="#FFFFFF">Leks</text>
+<text x="208" y="56" font-family="Inter, Arial, sans-serif" font-size="43" font-weight="750" letter-spacing="-1.8" fill="#FFB400">IDE</text>
+<text x="113" y="78" font-family="Inter, Arial, sans-serif" font-size="8.5" font-weight="600" letter-spacing="3.2" fill="#A8A8A8">TECHNOLOGY STUDIO</text>
+</svg>

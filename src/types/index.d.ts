@@ -6,23 +6,29 @@ export type TCommonProps = {
 
 export type TExperience = {
   companyName: string;
-  iconBg: string;
+  /** Human-readable span shown on the timeline, e.g. "2023-2025" */
   date: string;
+  /** Year the role started — drives the timeline order */
+  start: number;
+  /** Year the role ended; omit for an ongoing role */
+  end?: number;
   points: string[];
-} & Required<Omit<TCommonProps, "name">>;
-
-export type TTestimonial = {
-  testimonial: string;
-  designation: string;
-  company: string;
-  image: string;
-} & Required<Pick<TCommonProps, "name">>;
+} & Required<Pick<TCommonProps, "title">>;
 
 export type TProject = {
+  /** URL segment for the case-study route. */
+  slug: string;
   description: string;
   category: string;
   /** Additional categories this project also appears under in the filter */
   extraCategories?: string[];
+  /** What the client actually does — omitted where it isn't known for certain. */
+  sector?: string;
+  /** Who the site or system is for. */
+  audience?: string;
+  /** Work genuinely carried out. Never aspirational, never invented. */
+  contribution?: string[];
+  stack?: string[];
   tags: {
     name: string;
     color: string;
@@ -30,14 +36,6 @@ export type TProject = {
   image: string;
   sourceCodeLink: string;
 } & Required<Pick<TCommonProps, "name">>;
-
-export type TTechnology = Required<Omit<TCommonProps, "title">>;
-
-export type TNavLink = {
-  id: string;
-} & Required<Pick<TCommonProps, "title">>;
-
-export type TService = Required<Omit<TCommonProps, "name">>;
 
 export type TMotion = {
   direction: "up" | "down" | "left" | "right" | "";

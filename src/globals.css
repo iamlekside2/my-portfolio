@@ -26,6 +26,8 @@
   --text-primary: #ffffff;
   --text-secondary: #a8a8a8;
   --nav-bg: rgba(17, 17, 17, 0.85);
+  /* The logo chevron: off-white on dark, near-black on light. */
+  --brand-chevron: #f0efed;
   --gradient-start: #ffb400;
   --gradient-end: #ffcf4d;
   --gold: #ffb400;
@@ -56,8 +58,10 @@
   --text-primary: #0a0e1a;
   --text-secondary: #4a5568;
   --nav-bg: rgba(250, 249, 246, 0.9);
+  --brand-chevron: #0a0e1a;
   --gradient-start: #b8941f;
-  --gradient-end: #1a47b8;
+  /* Was #1a47b8 — a stray blue in an otherwise gold palette. */
+  --gradient-end: #d4af37;
   --gold: #b8941f;
   --gold-light: #d4af37;
   --royal-blue: #1a47b8;
@@ -463,4 +467,42 @@ h1, h2, h3, .ghost-title, .tunis-btn {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+/* ═══════════════════════════════════════════
+   STUDIO LAYOUT UTILITIES
+   ═══════════════════════════════════════════ */
+
+/* Tailwind 3.2 predates built-in line-clamp. */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Visible focus ring for keyboard users, on the brand gold. */
+:where(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Skip link: first tab stop, hidden until focused. */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #111;
+  font-size: 13px;
+  font-weight: 700;
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
 }

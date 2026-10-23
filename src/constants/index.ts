@@ -1,119 +1,27 @@
-import type {
-  TNavLink,
-  TService,
-  TTechnology,
-  TExperience,
-  TTestimonial,
-  TProject,
-} from '../types';
+import type { TExperience } from '../types';
 
-import {
-  mobile,
-  backend,
-  creator,
-  web,
-  javascript,
-  typescript,
-  html,
-  css,
-  reactjs,
-  redux,
-  tailwind,
-  git,
-  // nexalife,
-  // comcin,
-  // urcalls,
-  // africanproverbs,
-  // websites,
-  threejs,
-} from '../assets';
-// Project tile images now come from src/assets/projects/*.png (live-site
-// screenshots globbed in PortfolioPage); the legacy imports are gone.
+/** A role with no `end` is ongoing and sorts to the top of the timeline. */
+const ONGOING = 9999;
 
-export const navLinks: TNavLink[] = [
+const experienceEntries: TExperience[] = [
   {
-    id: 'about',
-    title: 'About',
+    title: 'Frontend Developer & Freelance Projects',
+    companyName: 'Personal Websites & Portfolios',
+    date: '2021 - Present',
+    start: 2021,
+    points: [
+      'Built personal and client websites using React, Next.js, and WordPress.',
+      'Integrated APIs, payment systems, and dynamic dashboards.',
+      'Delivered projects including hospital websites, business websites, and personal portfolios.',
+      'Handled both design and frontend development ensuring responsive, optimized, and visually appealing sites.',
+    ],
   },
-  {
-    id: 'work',
-    title: 'Work',
-  },
-  {
-    id: 'contact',
-    title: 'Contact',
-  },
-];
-
-const services: TService[] = [
-  {
-    title: 'Frontend Developer',
-    icon: web,
-  },
-  {
-    title: 'Mobile App Developer',
-    icon: mobile,
-  },
-  {
-    title: 'WordPress Developer',
-    icon: backend,
-  },
-  {
-    title: 'API & State Management',
-    icon: creator,
-  },
-];
-
-const technologies: TTechnology[] = [
-  {
-    name: 'HTML 5',
-    icon: html,
-  },
-  {
-    name: 'CSS 3',
-    icon: css,
-  },
-  {
-    name: 'JavaScript',
-    icon: javascript,
-  },
-  {
-    name: 'TypeScript',
-    icon: typescript,
-  },
-  {
-    name: 'React JS',
-    icon: reactjs,
-  },
-  {
-    name: 'Next JS',
-    icon: reactjs,
-  },
-  {
-    name: 'Redux Toolkit',
-    icon: redux,
-  },
-  {
-    name: 'Tailwind CSS',
-    icon: tailwind,
-  },
-  {
-    name: 'Three JS',
-    icon: threejs,
-  },
-  {
-    name: 'git',
-    icon: git,
-  },
-];
-
-const experiences: TExperience[] = [
   {
     title: 'Frontend & React Developer',
     companyName: 'COMCIN Project',
-    icon: web,
-    iconBg: '#383E56',
     date: '2025',
+    start: 2025,
+    end: 2025,
     points: [
       'Developed and maintained user-facing React applications for COMCIN.',
       'Implemented dynamic dashboards and multi-step forms for client interactions.',
@@ -122,47 +30,11 @@ const experiences: TExperience[] = [
     ],
   },
   {
-    title: 'Admin Dashboard Developer',
-    companyName: 'UrCalls Admin',
-    icon: backend,
-    iconBg: '#E6DEDD',
-    date: '2024',
-    points: [
-      'Built an admin dashboard to manage users, subscribers, and payments.',
-      'Implemented role-based permissions and dynamic UI updates for different users.',
-      'Developed reusable components for faster project delivery.',
-    ],
-  },
-  {
-    title: 'Church Dashboard Developer',
-    companyName: 'Church Management Dashboard',
-    icon: mobile,
-    iconBg: '#383E56',
-    date: '2024',
-    points: [
-      'Built dashboard for church management using React.',
-      'Implemented event scheduling, member tracking, and notifications.',
-      'Designed interactive forms and data storage for easy administration.',
-    ],
-  },
-  {
-    title: 'WordPress Designer & Developer',
-    companyName: 'Wildfire',
-    icon: creator,
-    iconBg: '#E6DEDD',
-    date: '2021',
-    points: [
-      'Designed and developed WordPress websites including hospital sites and business portfolios.',
-      'Built custom themes and plugins tailored to client needs.',
-      'Implemented responsive designs and optimized performance and SEO.',
-    ],
-  },
-  {
     title: 'Patient Tracker Developer',
     companyName: 'Nexalife Care',
-    icon: web,
-    iconBg: '#383E56',
     date: '2024-2025',
+    start: 2024,
+    end: 2025,
     points: [
       'Developed patient referral and tracking systems for Nexalife Care.',
       'Implemented real-time dashboards to track patient referrals and status updates.',
@@ -172,9 +44,9 @@ const experiences: TExperience[] = [
   {
     title: 'Frontend & React Developer',
     companyName: 'Calmglobal - Patient Dashboard',
-    icon: backend,
-    iconBg: '#E6DEDD',
     date: '2023-2025',
+    start: 2023,
+    end: 2025,
     points: [
       'Built patient dashboards to manage appointments, history, and communications.',
       'Integrated notification systems and dynamic user interfaces using React.',
@@ -182,11 +54,35 @@ const experiences: TExperience[] = [
     ],
   },
   {
+    title: 'Admin Dashboard Developer',
+    companyName: 'UrCalls Admin',
+    date: '2024',
+    start: 2024,
+    end: 2024,
+    points: [
+      'Built an admin dashboard to manage users, subscribers, and payments.',
+      'Implemented role-based permissions and dynamic UI updates for different users.',
+      'Developed reusable components for faster project delivery.',
+    ],
+  },
+  {
+    title: 'Church Dashboard Developer',
+    companyName: 'Church Management Dashboard',
+    date: '2024',
+    start: 2024,
+    end: 2024,
+    points: [
+      'Built dashboard for church management using React.',
+      'Implemented event scheduling, member tracking, and notifications.',
+      'Designed interactive forms and data storage for easy administration.',
+    ],
+  },
+  {
     title: 'Frontend & React Developer',
     companyName: 'AfricanProverbs',
-    icon: web,
-    iconBg: '#383E56',
     date: '2022 - 2023',
+    start: 2022,
+    end: 2023,
     points: [
       'Developed and maintained AfricanProverbs website using modern web technologies.',
       'Implemented search, filtering, and user-friendly UI/UX features.',
@@ -194,257 +90,43 @@ const experiences: TExperience[] = [
     ],
   },
   {
-    title: 'Frontend Developer & Freelance Projects',
-    companyName: 'Personal Websites & Portfolios',
-    icon: web,
-    iconBg: '#383E56',
-    date: '2021 - Present',
+    title: 'WordPress Designer & Developer',
+    companyName: 'Wildfire',
+    date: '2021',
+    start: 2021,
+    end: 2021,
     points: [
-      'Built personal and client websites using React, Next.js, and WordPress.',
-      'Integrated APIs, payment systems, and dynamic dashboards.',
-      'Delivered projects including hospital websites, business websites, and personal portfolios.',
-      'Handled both design and frontend development ensuring responsive, optimized, and visually appealing sites.',
+      'Designed and developed WordPress websites including hospital sites and business portfolios.',
+      'Built custom themes and plugins tailored to client needs.',
+      'Implemented responsive designs and optimized performance and SEO.',
     ],
   },
 ];
 
-const testimonials: TTestimonial[] = [
-  {
-    testimonial:
-      'I thought it was impossible to make a website as impressive as our brand, but Olamilekan proved me wrong.',
-    name: 'Mr Ben',
-    designation: 'C.E.O',
-    company: 'ABC Consult',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
-  },
-  {
-    testimonial:
-      "I've never met a developer who truly cares about the success of their clients like Olamilekan does.",
-    name: 'Mr Rilwan',
-    designation: 'COO',
-    company: 'Concim Ventures',
-    image: 'https://randomuser.me/api/portraits/men/45.jpg',
-  },
-  {
-    testimonial:
-      "After Olamilekan optimized our website, our traffic increased significantly. We can't thank him enough!",
-    name: 'Mr Dimeji',
-    designation: 'CTO',
-    company: 'Press Featured',
-    image: 'https://randomuser.me/api/portraits/women/46.jpg',
-  },
-];
+/**
+ * Newest first: ongoing roles, then by the year the role ended, then by the
+ * year it started. Sorting here means new entries can be added in any order.
+ */
+const experiences: TExperience[] = [...experienceEntries].sort(
+  (a, b) =>
+    (b.end ?? ONGOING) - (a.end ?? ONGOING) || b.start - a.start
+);
 
-const WEB_APPS = 'Web Apps & Dashboards';
-const WORDPRESS = 'WordPress Sites';
-const MOBILE = 'Mobile';
+/** The earliest year on the timeline — used to derive years of experience. */
+export const CAREER_START = Math.min(...experienceEntries.map((e) => e.start));
 
-const projects: TProject[] = [
-  // ── Web Apps & Dashboards ──
-  {
-    name: 'COMCIN Project',
-    category: WEB_APPS,
-    description:
-      'Web application for managing COMCIN workflows, including user dashboards, multi-step forms, and API integrations to streamline operations.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'redux', color: 'green-text-gradient' },
-      { name: 'tailwind', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://comcin.com.ng/',
-  },
-  {
-    name: 'UrCalls Admin Dashboard',
-    category: WEB_APPS,
-    description:
-      'Admin dashboard for UrCalls to manage users, subscriptions, payments, and role-based permissions, built with React and integrated with multiple payment APIs.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'redux', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://urcalls.com/',
-  },
-  {
-    name: 'Nexalife Care (Patient Tracker)',
-    category: WEB_APPS,
-    description:
-      'Patient referral and tracking system for Nexalife Care with real-time dashboards, multi-step forms, and API integration to manage patient data efficiently.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'tailwind', color: 'green-text-gradient' },
-      { name: 'api', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://nexalifecare.com/',
-  },
-  {
-    name: 'HRRP',
-    category: WEB_APPS,
-    description:
-      'HR platform for CalmGlobal covering staff records, workflows, and reporting, built with React and role-based access control.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'typescript', color: 'green-text-gradient' },
-      { name: 'api', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://hrrp.calmglobal.com/',
-  },
-  {
-    name: 'KPI Platform',
-    category: WEB_APPS,
-    description:
-      'KPI tracking and reporting platform for CalmGlobal with dashboards, targets, and performance analytics across teams.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'typescript', color: 'green-text-gradient' },
-      { name: 'dashboards', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://kpi.calmglobal.com/login',
-  },
-  {
-    name: 'Church Dashboard',
-    category: WEB_APPS,
-    description:
-      'Dashboard for church management including event scheduling, member tracking, and notifications, providing an easy-to-use admin interface.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'typescript', color: 'green-text-gradient' },
-      { name: 'firebase', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: '',
-  },
-  {
-    name: 'AfricanProverbs',
-    category: WEB_APPS,
-    description:
-      'Web platform showcasing African proverbs with search, filtering, and dynamic UI features, developed for educational and cultural engagement.',
-    tags: [
-      { name: 'react', color: 'blue-text-gradient' },
-      { name: 'nextjs', color: 'green-text-gradient' },
-      { name: 'tailwind', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://africanproverbs.com/',
-  },
-  // ── WordPress Sites ──
-  {
-    name: 'AeroCruise Travels',
-    category: WORDPRESS,
-    description:
-      'Travel and tours agency website with destination showcases, booking enquiries, and a fully responsive design.',
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://aerocruisetravelsng.com/',
-  },
-  {
-    name: 'RostrumSec',
-    category: WORDPRESS,
-    description:
-      'Corporate website for a security company, with service pages, enquiry forms, and SEO-optimized content.',
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://rostrumsec.com/',
-  },
-  {
-    name: 'Tyndale Securities',
-    category: WORDPRESS,
-    description:
-      'Corporate website with service listings, company profile, and contact flows, built and maintained on WordPress.',
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://tyndale-securities.com/',
-  },
-  {
-    name: 'TomilTrust Limited',
-    category: WORDPRESS,
-    description:
-      'Corporate website for TomilTrust Limited with brand-focused design, service pages, and enquiry handling.',
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://tomiltrustlimited.com/',
-  },
-  {
-    name: 'Oladele Oyelola Foundation',
-    category: WORDPRESS,
-    description:
-      'NGO / foundation website presenting programmes, impact stories, and donation and contact channels.',
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://oladeleoyelolafoundation.org/',
-  },
-  {
-    name: 'Raya Elite Cleaning',
-    category: WORDPRESS,
-    description:
-      'Home and office cleaning services website with service breakdowns, quote requests, and local SEO setup.',
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://rayaelitehomesandofficescleaningservices.com/',
-  },
-  ...([
-    ['CalmGlobal Technologies', 'Company website for CalmGlobal Technologies — software and health-tech services.', 'https://calmglobal.com/'],
-    ['GMBJet', 'Business website with service pages and enquiry flows.', 'https://gmbjet.com/'],
-    ['ReinstateBoost', 'Service business website with lead-capture forms, built with Elementor.', 'https://reinstateboost.com/'],
-    ['Press Featured', 'Media and PR services website.', 'https://www.pressfeatured.com/'],
-    ['Eniwo Egbeme', 'Personal brand website.', 'https://eniwoegbeme.com/'],
-    ['RCCG Jubilee House', 'Church website with about, events and ministry pages.', 'https://rccgjubileehouse.com/'],
-    ['DUMAAC Projects', 'Corporate projects and services website.', 'https://dumaacprojects.com/'],
-    ['Xmage Photography', 'Photography portfolio website with galleries and bookings.', 'https://xmagephotography.com/'],
-    ["St John's Catholic Hospital Kabba", 'Hospital website with departments, services and contact information.', 'https://stjohnscatholichospitalkabba.com.ng/'],
-    ['Kanary Ancillaries', 'Corporate website with service listings.', 'https://kanaryancillaries.com/'],
-    ['Great Ife Alumni Canada', 'Alumni association website with membership management.', 'https://greatifealumni.ca/'],
-    ['Okun Development Association', 'Community development association website with membership features.', 'https://okundev.org/'],
-    ['Ayetoro Gbede Global Network', 'Community network website connecting members globally.', 'https://ayetorogbedeglobalnetwork.org/'],
-    ['Beyond Healthcare Fertility', 'Fertility clinic website with services and appointment enquiries.', 'https://beyondhealthcarefertility.com/'],
-  ] as [string, string, string][]).map(([name, description, url]) => ({
-    name,
-    category: WORDPRESS,
-    description,
-    tags: [
-      { name: 'wordpress', color: 'blue-text-gradient' },
-      { name: 'elementor', color: 'green-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: url,
-  })),
-  // ── Mobile ──
-  {
-    name: 'RealCousins',
-    category: MOBILE,
-    extraCategories: [WEB_APPS],
-    description:
-      'Family-tree platform connecting relatives — web app plus React Native / Expo mobile app with shared backend (Node.js, Prisma, PostgreSQL).',
-    tags: [
-      { name: 'react-native', color: 'blue-text-gradient' },
-      { name: 'expo', color: 'green-text-gradient' },
-      { name: 'api', color: 'pink-text-gradient' },
-    ],
-    image: '',
-    sourceCodeLink: 'https://realcousins.com/',
-  },
-];
 
-export { services, technologies, experiences, testimonials, projects };
+export { experiences };
+
+export {
+  projects,
+  projectBySlug,
+  caseStudies,
+  featuredProjects,
+  WEB_APPS,
+  WORDPRESS,
+  MOBILE,
+} from './projects';
+
+export { services } from './services';
+export type { TService } from './services';

@@ -1,0 +1,5 @@
+# LeksIDE — https://lekside.vercel.app
+User-agent: *
+Allow: /
+
+Sitemap: https://lekside.vercel.app/sitemap.xml

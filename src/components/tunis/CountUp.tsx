@@ -1,11 +1,26 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useInView } from "framer-motion";
 
-/** Animates a number from 0 to target when it scrolls into view. */
+// useLayoutEffect warns during server rendering; effects never run there anyway.
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+/**
+ * Animates a number from 0 to target when it scrolls into view.
+ *
+ * The initial state is the *target*, not 0, so the real figure is present in
+ * the prerendered HTML for crawlers and readers without JavaScript. In the
+ * browser we drop it back to 0 before the first paint, so the count-up still
+ * plays and no one sees the jump.
+ */
 const CountUp = ({ target, suffix }: { target: number; suffix?: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(target);
+
+  useIsomorphicLayoutEffect(() => {
+    setValue(0);
+  }, []);
 
   useEffect(() => {
     if (!inView) return;
