@@ -32,6 +32,27 @@
     <meta name="twitter:image" content="https://lekside.vercel.app/og-image.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!--
+      Loaded as a preload that promotes itself to a stylesheet once it
+      arrives, so fonts are off the critical path entirely: the page paints
+      in the fallback face and swaps when the webfont lands. The family list
+      already carries display=swap, so swapping was always the intent — the
+      old @import in globals.css simply made the browser wait for it first.
+      The <noscript> copy keeps fonts working without JavaScript, where
+      blocking on them is harmless because nothing else is waiting.
+    -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

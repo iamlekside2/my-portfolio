@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+/* The Google Fonts stylesheet used to be imported here. An @import is
+   serialised behind this file: the browser fetched this CSS, parsed it,
+   discovered the import and only then opened a connection to Google. Measured
+   on the deployed site, that second request did not start until 3305ms and
+   first paint waited for it. It now loads from index.html, in parallel with
+   this file and without blocking paint. */
 
 @tailwind base;
 @tailwind components;
