@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import {
   FiMail,
@@ -58,7 +58,47 @@ const INITIAL = {
   message: "",
 };
 type Fields = typeof INITIAL;
-type Status = "idle" | "sending" | "sent" | "error";
+type Status = "idle" | "sending" | "sent" | "error" | "throttled";
+
+/**
+ * Spam defences.
+ *
+ * All three are client-side, and a determined attacker can bypass every one
+ * of them by posting to EmailJS directly with the public key out of the
+ * bundle. That is inherent to a client-only form and is not pretended
+ * otherwise here. What these stop is the drive-by case that actually
+ * happens — automated form-fillers crawling for anything that submits — and
+ * the accidental double-send. The real backstop remains the EmailJS monthly
+ * request cap.
+ *
+ * Origin restriction would be the proper fix. It is a paid EmailJS feature,
+ * so it is deliberately not relied on.
+ */
+
+/** A form completed faster than this was not completed by a person. */
+const MIN_FILL_MS = 3_000;
+
+/** One enquiry per minute from a browser. Guards the monthly request quota. */
+const COOLDOWN_MS = 60_000;
+
+const LAST_SENT_KEY = "lekside:last-enquiry";
+
+/** localStorage throws in private modes and when storage is disabled. */
+const readLastSent = (): number => {
+  try {
+    return Number(window.localStorage.getItem(LAST_SENT_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+};
+
+const writeLastSent = () => {
+  try {
+    window.localStorage.setItem(LAST_SENT_KEY, String(Date.now()));
+  } catch {
+    /* Not being able to record the send is not a reason to fail it. */
+  }
+};
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -148,6 +188,23 @@ const ContactPage = () => {
   const [errors, setErrors] = useState<Partial<Record<keyof Fields, string>>>({});
   const [status, setStatus] = useState<Status>("idle");
 
+  /**
+   * Honeypot. Hidden from people and from screen readers, so anything in it
+   * was put there by something filling every field it could find.
+   */
+  const [honeypot, setHoneypot] = useState("");
+
+  /**
+   * Set in an effect rather than at render: this component is rendered to
+   * HTML at build time by the prerenderer, where there is no clock worth
+   * reading and no window. Zero means "never mounted", which the check
+   * below treats as pass.
+   */
+  const mountedAt = useRef(0);
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
+
   const fieldStyle = (name: keyof Fields) => ({
     background: "var(--color-tertiary)",
     color: "var(--text-primary)",
@@ -196,6 +253,24 @@ const ContactPage = () => {
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
+    // Honeypot, and submissions too fast to have been typed. Both get the
+    // generic failure rather than a message naming the check — there is no
+    // reason to tell an automated filler which test it failed, and a person
+    // who somehow lands here still gets the email and WhatsApp routes.
+    const tooFast =
+      mountedAt.current > 0 && Date.now() - mountedAt.current < MIN_FILL_MS;
+    if (honeypot.trim() !== "" || tooFast) {
+      setStatus("error");
+      return;
+    }
+
+    // Repeat sends from the same browser. This one is explained, because it
+    // is the check a real person is most likely to trip.
+    if (Date.now() - readLastSent() < COOLDOWN_MS) {
+      setStatus("throttled");
+      return;
+    }
+
     if (!isConfigured) {
       setStatus("error");
       return;
@@ -220,6 +295,7 @@ const ContactPage = () => {
       // Only now is it safe to say the message was sent.
       setStatus("sent");
       setForm(INITIAL);
+      writeLastSent();
     } catch {
       setStatus("error");
     }
@@ -298,6 +374,34 @@ const ContactPage = () => {
         )}
 
         <form onSubmit={handleSubmit} noValidate className="mt-6 flex flex-col gap-5">
+          {/* Honeypot. Positioned off-screen rather than display:none —
+              some fillers skip fields they can tell are not rendered — and
+              removed from the accessibility tree and the tab order, so no
+              person using a keyboard or a screen reader can reach it. */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              width: "1px",
+              height: "1px",
+              overflow: "hidden",
+            }}
+          >
+            <label htmlFor="company-website">
+              Company website — leave this field empty
+            </label>
+            <input
+              id="company-website"
+              name="company-website"
+              type="text"
+              tabIndex={-1}
+              autoComplete="off"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+            />
+          </div>
+
           <div>
             <label htmlFor="name" className="mb-2 block text-[13px] font-semibold">
               Your name
@@ -450,6 +554,33 @@ const ContactPage = () => {
               <span>
                 <strong>Message delivered.</strong> You will get a reply at the
                 address you gave, usually within one working day.
+              </span>
+            </p>
+          )}
+
+          {status === "throttled" && (
+            <p
+              role="status"
+              className="flex gap-3 rounded-xl p-4 text-[14px] leading-relaxed"
+              style={{
+                background: "var(--color-tertiary)",
+                border: "1px solid var(--glass-border)",
+              }}
+            >
+              <FiAlertCircle className="mt-0.5 shrink-0" aria-hidden />
+              <span>
+                <strong>You have just sent one.</strong> Give it a minute
+                before sending another — the first message is already on its
+                way. If it is urgent,{" "}
+                <a
+                  className="underline"
+                  href={founder.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  WhatsApp
+                </a>{" "}
+                is faster anyway.
               </span>
             </p>
           )}
