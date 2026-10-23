@@ -2,6 +2,7 @@ import { Link, useParams, Navigate } from "react-router-dom";
 import { FiArrowLeft, FiArrowRight, FiExternalLink } from "react-icons/fi";
 import PageTransition from "../components/tunis/PageTransition";
 import { projectBySlug, caseStudies } from "../constants";
+import { caseStudyDetail } from "../constants/caseStudyDetail";
 import { projectImage } from "../utils/projectImage";
 
 /**
@@ -19,6 +20,9 @@ const CaseStudyPage = () => {
   // the visitor to the list rather than rendering a near-empty study.
   if (!project || !hasCaseStudy) return <Navigate to="/portfolio" replace />;
 
+  // The prose half, loaded with this page rather than with the shared
+  // project list. Absent for a project whose brief is not documented.
+  const detail = caseStudyDetail[project.slug] ?? {};
   const img = projectImage(project.slug);
   const index = caseStudies.findIndex((p) => p.slug === project.slug);
   const next = caseStudies[(index + 1) % caseStudies.length];
@@ -71,13 +75,13 @@ const CaseStudyPage = () => {
 
         {/* The brief, where it is actually known. Absent on projects where it
             would have to be reconstructed from the finished product. */}
-        {project.problem && (
+        {detail.problem && (
           <section className="mt-14">
             <h2 className="text-[13px] font-bold uppercase tracking-[0.2em] text-secondary">
               The problem
             </h2>
             <p className="mt-5 max-w-2xl text-[15.5px] leading-[1.95]">
-              {project.problem}
+              {detail.problem}
             </p>
           </section>
         )}
@@ -149,13 +153,13 @@ const CaseStudyPage = () => {
 
         {/* Implementation decisions: the part of a build a prospective client
             cannot read off a screenshot. */}
-        {project.decisions && project.decisions.length > 0 && (
+        {detail.decisions && detail.decisions.length > 0 && (
           <section className="mt-16">
             <h2 className="text-[13px] font-bold uppercase tracking-[0.2em] text-secondary">
               Decisions that shaped it
             </h2>
             <div className="mt-6 grid gap-5 md:grid-cols-2">
-              {project.decisions.map((d) => (
+              {detail.decisions.map((d) => (
                 <div
                   key={d.title}
                   className="rounded-2xl p-5"
