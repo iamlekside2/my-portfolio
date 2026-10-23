@@ -130,3 +130,6 @@ export {
 
 export { services } from './services';
 export type { TService } from './services';
+
+export { enquiryChecklist, engagementProcess, faqs } from './contact';
+export type { TStep, TFaq } from './contact';

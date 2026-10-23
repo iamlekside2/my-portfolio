@@ -1,11 +1,22 @@
 import { useState } from "react";
-import { FiMail, FiGithub, FiSend, FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import {
+  FiMail,
+  FiGithub,
+  FiSend,
+  FiAlertCircle,
+  FiCheckCircle,
+  FiArrowRight,
+} from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
 import PageShell from "../components/tunis/PageShell";
 import Socials from "../components/tunis/Socials";
 import { config } from "../constants/config";
 import { founder } from "../constants/profile";
+import { enquiryChecklist, engagementProcess, faqs } from "../constants/contact";
+import { services } from "../constants/services";
+import { SITE_URL, BRAND } from "../constants/seo";
 
 /**
  * Enquiry form.
@@ -60,6 +71,58 @@ const infoCards = [
   },
 ];
 
+const card = {
+  background: "var(--color-surface-elevated)",
+  border: "1px solid var(--glass-border)",
+};
+
+const accent = { color: "var(--color-accent)" };
+
+/**
+ * Machine-readable version of the page. The FAQ block is the point: it lets a
+ * search engine or an assistant answer "where are they based", "do they take
+ * over existing projects" by quoting the studio rather than guessing.
+ */
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": `${SITE_URL}/contact`,
+      url: `${SITE_URL}/contact`,
+      name: `Start a Project — Contact ${BRAND}`,
+      about: { "@id": `${SITE_URL}/#organization` },
+    },
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: BRAND,
+      url: SITE_URL,
+      email: config.html.email,
+      founder: { "@type": "Person", name: founder.name },
+      address: { "@type": "PostalAddress", addressCountry: "NG" },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          email: config.html.email,
+          telephone: `+${founder.whatsappUrl.split("/").pop()}`,
+          areaServed: ["NG", "US"],
+          availableLanguage: "English",
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: f.a },
+      })),
+    },
+  ],
+};
+
 const field =
   "w-full rounded-xl px-5 py-4 text-[14px] outline-none transition-all duration-300";
 
@@ -90,7 +153,7 @@ const ContactPage = () => {
       `${form.message}\n\n— ${form.name}${form.email ? ` (${form.email})` : ""}`
     );
     return `mailto:${config.html.email}?subject=${encodeURIComponent(
-      "Project enquiry via leksIDE.dev"
+      `Project enquiry via ${BRAND}`
     )}&body=${body}`;
   };
 
@@ -331,6 +394,102 @@ const ContactPage = () => {
           )}
         </div>
       </div>
+
+      {/* ---- Everything below is what the page says to a reader, or a
+             crawler, that never fills the form in. ---- */}
+
+      <h2 className="mb-3 mt-24 text-center text-[18px] font-bold uppercase tracking-wider">
+        What to put in the <span style={accent}>message</span>
+      </h2>
+      <p className="mx-auto mb-10 max-w-xl text-center text-[14px] leading-[1.9] text-secondary">
+        None of it is required — &ldquo;can you help with this?&rdquo; is a fine
+        way to start. But the more of it a first message carries, the sooner it
+        turns into a real answer instead of a round of questions.
+      </p>
+      <div className="grid gap-5 sm:grid-cols-2">
+        {enquiryChecklist.map((item) => (
+          <div key={item.title} className="rounded-2xl p-5" style={card}>
+            <h3 className="text-[15px] font-bold">{item.title}</h3>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-secondary">
+              {item.detail}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      <h2 className="mb-3 mt-20 text-center text-[18px] font-bold uppercase tracking-wider">
+        What happens <span style={accent}>next</span>
+      </h2>
+      <p className="mx-auto mb-10 max-w-xl text-center text-[14px] leading-[1.9] text-secondary">
+        The whole path from enquiry to build, so you know what you are starting
+        before you start it.
+      </p>
+      <ol className="grid list-none gap-5 md:grid-cols-2 lg:grid-cols-4">
+        {engagementProcess.map((step) => (
+          <li key={step.n} className="info-chip">
+            <span
+              aria-hidden
+              className="text-[28px] font-extrabold leading-none"
+              style={accent}
+            >
+              {step.n}
+            </span>
+            <h3 className="mt-3 text-[15px] font-bold">{step.title}</h3>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-secondary">
+              {step.detail}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <h2 className="mb-3 mt-20 text-center text-[18px] font-bold uppercase tracking-wider">
+        Work the studio <span style={accent}>takes on</span>
+      </h2>
+      <p className="mx-auto mb-10 max-w-xl text-center text-[14px] leading-[1.9] text-secondary">
+        If your project sits outside all of these, say so anyway — it is quicker
+        to be told no than to wonder.
+      </p>
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => (
+          <div key={s.id} className="rounded-2xl p-5" style={card}>
+            <h3 className="text-[15px] font-bold">{s.title}</h3>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-secondary">
+              {s.outcome}
+            </p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-8 text-center">
+        <Link to="/services" className="tunis-btn h-[48px]">
+          See what each one involves
+          <span className="tunis-btn-arrow">
+            <FiArrowRight />
+          </span>
+        </Link>
+      </div>
+
+      <h2 className="mb-10 mt-20 text-center text-[18px] font-bold uppercase tracking-wider">
+        Common <span style={accent}>questions</span>
+      </h2>
+      <dl className="mx-auto max-w-3xl">
+        {faqs.map((f) => (
+          <div
+            key={f.q}
+            className="border-b py-6 first:border-t"
+            style={{ borderColor: "var(--glass-border)" }}
+          >
+            <dt className="text-[15px] font-bold">{f.q}</dt>
+            <dd className="mt-2.5 text-[13.5px] leading-[1.95] text-secondary">
+              {f.a}
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
     </PageShell>
   );
 };
