@@ -100,3 +100,34 @@ export const faqs: TFaq[] = [
     a: 'No fixed minimum. Small, well-defined pieces of work are welcome — a single integration, a performance problem, one broken flow — alongside full builds.',
   },
 ];
+
+/**
+ * Qualification fields on the enquiry form.
+ *
+ * Two selects rather than two more text inputs: a select costs one tap on a
+ * phone, cannot be typed wrong, and both answers change how the reply is
+ * written. Both stay optional — a visitor who does not know yet should not be
+ * blocked from sending.
+ */
+export const projectTypes: string[] = [
+  'Business website or WordPress',
+  'Web application or dashboard',
+  'Mobile app',
+  'Custom software or internal tool',
+  'API integration or automation',
+  'Taking over an existing build',
+  'Something else / not sure yet',
+];
+
+/**
+ * Ranges rather than a figure. A visitor who will not type a number will often
+ * still pick a band, and the band is enough to say whether the work is a fit.
+ */
+export const budgetRanges: string[] = [
+  'Under $1,000',
+  '$1,000 – $3,000',
+  '$3,000 – $7,000',
+  '$7,000 – $15,000',
+  '$15,000+',
+  'Not sure yet',
+];

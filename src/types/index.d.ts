@@ -26,6 +26,20 @@ export type TProject = {
   sector?: string;
   /** Who the site or system is for. */
   audience?: string;
+  /**
+   * The situation the work was commissioned to change, described without
+   * numbers. Present only where the problem is actually known rather than
+   * reconstructed from the finished product.
+   */
+  problem?: string;
+  /**
+   * Implementation decisions worth defending, and why each was taken. These
+   * are the engineering content of a case study — the part a prospective
+   * client cannot infer from a screenshot.
+   */
+  decisions?: { title: string; detail: string }[];
+  /** Caption for the screenshot, where one adds something the image does not. */
+  imageCaption?: string;
   /** Work genuinely carried out. Never aspirational, never invented. */
   contribution?: string[];
   stack?: string[];

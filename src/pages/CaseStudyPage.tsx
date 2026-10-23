@@ -51,14 +51,35 @@ const CaseStudyPage = () => {
         </header>
 
         {img && (
-          <img
-            src={img}
-            alt={`${project.name} interface`}
-            loading="lazy"
-            decoding="async"
-            className="mt-10 w-full rounded-2xl object-cover object-top"
-            style={{ border: "1px solid var(--glass-border)" }}
-          />
+          <figure className="mt-10">
+            <img
+              src={img}
+              alt={`${project.name} interface`}
+              loading="lazy"
+              decoding="async"
+              className="w-full rounded-2xl object-cover object-top"
+              style={{ border: "1px solid var(--glass-border)" }}
+            />
+            <figcaption className="mt-3 text-[12.5px] text-secondary">
+              {project.imageCaption ??
+                `${project.name} — captured from the live ${
+                  project.category === "Mobile" ? "product" : "site"
+                }.`}
+            </figcaption>
+          </figure>
+        )}
+
+        {/* The brief, where it is actually known. Absent on projects where it
+            would have to be reconstructed from the finished product. */}
+        {project.problem && (
+          <section className="mt-14">
+            <h2 className="text-[13px] font-bold uppercase tracking-[0.2em] text-secondary">
+              The problem
+            </h2>
+            <p className="mt-5 max-w-2xl text-[15.5px] leading-[1.95]">
+              {project.problem}
+            </p>
+          </section>
         )}
 
         <div className="mt-12 grid gap-10 md:grid-cols-[1fr_260px]">
@@ -125,6 +146,33 @@ const CaseStudyPage = () => {
             )}
           </aside>
         </div>
+
+        {/* Implementation decisions: the part of a build a prospective client
+            cannot read off a screenshot. */}
+        {project.decisions && project.decisions.length > 0 && (
+          <section className="mt-16">
+            <h2 className="text-[13px] font-bold uppercase tracking-[0.2em] text-secondary">
+              Decisions that shaped it
+            </h2>
+            <div className="mt-6 grid gap-5 md:grid-cols-2">
+              {project.decisions.map((d) => (
+                <div
+                  key={d.title}
+                  className="rounded-2xl p-5"
+                  style={{
+                    background: "var(--color-surface-elevated)",
+                    border: "1px solid var(--glass-border)",
+                  }}
+                >
+                  <h3 className="text-[15px] font-bold">{d.title}</h3>
+                  <p className="mt-2 text-[13.5px] leading-[1.9] text-secondary">
+                    {d.detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
 
         <nav
           className="mt-16 flex flex-wrap items-center justify-between gap-5 border-t pt-8"

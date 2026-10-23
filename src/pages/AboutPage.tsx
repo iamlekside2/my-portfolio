@@ -171,7 +171,7 @@ const AboutPage = () => (
 
     <div className="mt-14 text-center">
       <Link to="/contact" className="tunis-btn h-[48px]">
-        Work with the studio
+        Start a project
         <span className="tunis-btn-arrow">
           <FiArrowRight />
         </span>

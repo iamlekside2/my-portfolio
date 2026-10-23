@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { FiArrowRight, FiCheck } from "react-icons/fi";
+import { FiArrowRight, FiArrowUpRight, FiCheck } from "react-icons/fi";
 import PageShell from "../components/tunis/PageShell";
-import { services } from "../constants";
+import { servicesWithProof } from "../constants/services";
 
 const ServicesPage = () => (
   <PageShell ghost="Services" first="What We" second="Build">
@@ -12,7 +12,7 @@ const ServicesPage = () => (
     </p>
 
     <div className="flex flex-col gap-6">
-      {services.map((s, i) => (
+      {servicesWithProof().map(({ service: s, proof }, i) => (
         <section
           key={s.id}
           id={s.id}
@@ -41,6 +41,29 @@ const ServicesPage = () => (
             <p className="mt-4 max-w-xl text-[14.5px] leading-[1.9] text-secondary">
               {s.description}
             </p>
+
+            {/* The route from the claim to the work behind it. */}
+            {proof.length > 0 && (
+              <div className="mt-6">
+                <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-secondary">
+                  Work that shows it
+                </h3>
+                <ul className="mt-3 flex flex-wrap gap-2.5">
+                  {proof.map((p) => (
+                    <li key={p.slug}>
+                      <Link
+                        to={`/portfolio/${p.slug}`}
+                        className="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[12.5px] font-semibold transition-colors hover:text-[var(--color-accent)]"
+                        style={{ border: "1px solid var(--glass-border)" }}
+                      >
+                        {p.name}
+                        <FiArrowUpRight size={13} aria-hidden />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           <div
@@ -77,7 +100,7 @@ const ServicesPage = () => (
       </p>
       <div className="mt-7 flex justify-center">
         <Link to="/contact" className="tunis-btn h-[48px]">
-          Start a conversation
+          Start a project
           <span className="tunis-btn-arrow">
             <FiArrowRight />
           </span>

@@ -2,12 +2,21 @@
  * What LeksIDE offers. Each entry leads with the business outcome rather than
  * the technology, because that is what an enquiring client is buying.
  */
+import { caseStudies } from './projects';
+
 export type TService = {
   id: string;
   title: string;
   outcome: string;
   description: string;
   deliverables: string[];
+  /**
+   * Slugs of case studies that demonstrate this service. A service description
+   * is a claim; these are the route from the claim to the work behind it.
+   * Every slug must exist in `caseStudies` — `servicesWithProof` drops any
+   * that does not rather than rendering a link to a redirect.
+   */
+  proof?: string[];
 };
 
 export const services: TService[] = [
@@ -23,6 +32,7 @@ export const services: TService[] = [
       'Enquiry and lead-capture flows',
       'Editor training and handover',
     ],
+    proof: ['rayaelite', 'aerocruise', 'stjohns', 'kanary'],
   },
   {
     id: 'web-apps',
@@ -36,6 +46,7 @@ export const services: TService[] = [
       'Multi-step forms and data capture',
       'Integration with existing APIs and databases',
     ],
+    proof: ['hrrp', 'kpi', 'urcalls', 'nexalife'],
   },
   {
     id: 'mobile',
@@ -48,6 +59,7 @@ export const services: TService[] = [
       'Shared API and data model with the web app',
       'Store submission and release builds',
     ],
+    proof: ['realcousins'],
   },
   {
     id: 'custom-software',
@@ -61,6 +73,7 @@ export const services: TService[] = [
       'Data migration and clean-up',
       'Bespoke internal systems',
     ],
+    proof: ['nexalife', 'comcin', 'church-dashboard'],
   },
   {
     id: 'partnership',
@@ -76,3 +89,22 @@ export const services: TService[] = [
     ],
   },
 ];
+
+/**
+ * Services paired with the case studies that demonstrate them.
+ *
+ * Resolution happens here rather than in the page so a stale slug can never
+ * render a dead link: `caseStudies` is the single source of which projects
+ * have a page, and anything not in it is silently dropped.
+ */
+export const servicesWithProof = (): {
+  service: TService;
+  proof: { slug: string; name: string }[];
+}[] =>
+  services.map((service) => ({
+    service,
+    proof: (service.proof ?? [])
+      .map((slug) => caseStudies.find((p) => p.slug === slug))
+      .filter((p): p is (typeof caseStudies)[number] => Boolean(p))
+      .map((p) => ({ slug: p.slug, name: p.name })),
+  }));

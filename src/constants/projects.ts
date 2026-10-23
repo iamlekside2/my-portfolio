@@ -81,6 +81,25 @@ const webApps: TProject[] = [
     audience: 'HR staff and managers across the organisation',
     description:
       'HR platform covering staff records, the workflows that move a request between people, and reporting across both. Access is scoped by role, so staff, managers and HR each see a different surface.',
+    problem:
+      'HR work that spans more than one person — a leave request, an appraisal, an onboarding — had no single place to live. Records sat in spreadsheets, approvals happened in email, and the question of where a request had got to could only be answered by asking someone. The reporting an HR function needs had to be assembled by hand each time.',
+    decisions: [
+      {
+        title: 'Role decides the surface, not just the permissions',
+        detail:
+          'Rather than render one interface and hide what a user may not touch, each role is given its own view of the platform. A staff member, a line manager and an HR administrator open the same route and see different pages. Hiding controls after the fact tends to leak — through a direct URL, through a stale cached view — and it also leaves every user reading an interface mostly built for someone else.',
+      },
+      {
+        title: 'Workflow stage as the unit of state',
+        detail:
+          'A request carries an explicit stage rather than a scatter of booleans. Adding an approval step is a change to the stage list instead of a change to every screen that reads the record, and "where has this got to" has one authoritative answer.',
+      },
+      {
+        title: 'TypeScript across the record and workflow models',
+        detail:
+          'Staff records and workflow payloads are typed end to end. On a platform where several roles write to the same record, a shape mismatch between a form and the API is the failure that costs most to find in production.',
+      },
+    ],
     contribution: [
       'Built the HR platform front end in React and TypeScript',
       'Implemented staff records, workflow stages and reporting views',
@@ -157,10 +176,30 @@ const mobileApps: TProject[] = [
     audience: 'Families across Nigeria, Africa and the diaspora',
     description:
       'A family-tree platform built on the premise that your family tree is your network. A single backend serves both a web app and a React Native app, so relatives on either side of a migration build and browse the same tree.',
+    problem:
+      'Family knowledge in Nigerian and diaspora families sits with the oldest living relatives and travels by conversation. Once a family is spread across continents those conversations stop happening, and the generic genealogy tools built around Western record sets handle neither the family structures nor the absence of digitised records. The people most able to fill a tree in are also the least likely to be at a laptop.',
+    decisions: [
+      {
+        title: 'One backend, two clients',
+        detail:
+          'The web app and the React Native app consume the same Node.js API rather than each owning its own logic. A relative who adds a cousin on a phone and one browsing on a laptop are reading the same tree with no sync layer to go wrong — and relationship rules are enforced once, on the server, instead of twice.',
+      },
+      {
+        title: 'A relational store for graph-shaped data',
+        detail:
+          'A family tree is a graph, which argues for a graph database. PostgreSQL with Prisma was chosen anyway: the traversals the product actually performs are shallow, and the relational model made the constraints that keep a tree valid — no one their own ancestor, no duplicate parentage — enforceable in the schema rather than in application code.',
+      },
+      {
+        title: 'Expo for one mobile codebase',
+        detail:
+          'Expo carries the iOS and Android builds from one codebase, which is what makes a mobile app viable for a product at this stage at all. Over-the-air updates mean a correction reaches users without waiting on a store review.',
+      },
+    ],
     contribution: [
       'Built the web application and the React Native / Expo mobile app',
       'Developed the shared Node.js backend with Prisma and PostgreSQL',
       'Designed the data model and API consumed by both clients',
+      'Shipped and maintained the app through successive store releases',
     ],
     stack: ['React Native', 'Expo', 'Node.js', 'Prisma', 'PostgreSQL'],
     tags: tag('react-native', 'expo', 'api'),
@@ -182,6 +221,8 @@ type SiteSeed = {
   audience?: string;
   description: string;
   contribution?: string[];
+  problem?: string;
+  decisions?: { title: string; detail: string }[];
 };
 
 const siteSeeds: SiteSeed[] = [
@@ -247,6 +288,30 @@ const siteSeeds: SiteSeed[] = [
     audience: 'US homeowners, businesses and government clients',
     description:
       'A bonded and insured cleaning company operating in Maryland and Washington DC, serving residential, commercial and government clients. A US service business where the site has to convert: credentials up front, then a direct route to booking.',
+    problem:
+      'Residential and commercial cleaning in the Maryland and DC area is a crowded market where the buyer is choosing a stranger to let into their home or office. Bonded and insured status is the thing that settles that decision, and it is usually buried on an about page. The site had to lead with the credentials, keep residential, commercial and government work legible as separate offers, and let someone request a quote without a phone call.',
+    decisions: [
+      {
+        title: 'Credentials above the fold, not on an about page',
+        detail:
+          'Bonded and insured is the single fact that moves a visitor from browsing to enquiring for this category of business, so it sits in the first screenful rather than being left for the visitor to go looking for.',
+      },
+      {
+        title: 'Service tiers broken out rather than listed',
+        detail:
+          'Residential, commercial and government clients are buying different things under one word. Each is given its own section so a facilities manager and a homeowner can each find their own offer instead of reading past the other one.',
+      },
+      {
+        title: 'WordPress so the owner controls the content',
+        detail:
+          'A service business changes its pricing, areas and availability far more often than its design. WordPress was chosen over a hand-built site specifically so those edits never need a developer.',
+      },
+      {
+        title: 'Local SEO structured around the service area',
+        detail:
+          'Discovery for this business is geographic. The site is structured around the Maryland and DC service area so the pages match how the work is actually searched for.',
+      },
+    ],
     contribution: [
       'Designed and built the site on WordPress',
       'Broke out the service tiers and surfaced the bonded/insured credentials',
@@ -445,6 +510,8 @@ const websites: TProject[] = siteSeeds.map((s) => ({
   audience: s.audience,
   description: s.description,
   contribution: s.contribution,
+  problem: s.problem,
+  decisions: s.decisions,
   stack: ['WordPress', 'Elementor', 'PHP'],
   tags: tag('wordpress', 'elementor'),
   image: '',

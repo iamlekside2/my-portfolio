@@ -14,7 +14,13 @@ import PageShell from "../components/tunis/PageShell";
 import Socials from "../components/tunis/Socials";
 import { config } from "../constants/config";
 import { founder } from "../constants/profile";
-import { enquiryChecklist, engagementProcess, faqs } from "../constants/contact";
+import {
+  enquiryChecklist,
+  engagementProcess,
+  faqs,
+  projectTypes,
+  budgetRanges,
+} from "../constants/contact";
 import { services } from "../constants/services";
 import { SITE_URL, BRAND } from "../constants/seo";
 
@@ -39,7 +45,18 @@ const isConfigured = Boolean(
   emailjsConfig.serviceId && emailjsConfig.templateId && emailjsConfig.accessToken
 );
 
-const INITIAL = { name: "", email: "", message: "" };
+/**
+ * `projectType` and `budget` are deliberately optional: they sharpen the reply
+ * when answered, but a visitor who does not know yet must still be able to
+ * send. Only name, email and message are required.
+ */
+const INITIAL = {
+  name: "",
+  email: "",
+  projectType: "",
+  budget: "",
+  message: "",
+};
 type Fields = typeof INITIAL;
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -138,7 +155,9 @@ const ContactPage = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -147,10 +166,19 @@ const ContactPage = () => {
     }
   };
 
-  /** A mailto carrying whatever the visitor already typed. */
+  /** A mailto carrying whatever the visitor already typed, qualifiers included. */
   const fallbackMailto = () => {
+    const qualifiers = [
+      form.projectType && `Project type: ${form.projectType}`,
+      form.budget && `Budget: ${form.budget}`,
+    ]
+      .filter(Boolean)
+      .join("\n");
+
     const body = encodeURIComponent(
-      `${form.message}\n\n— ${form.name}${form.email ? ` (${form.email})` : ""}`
+      `${form.message}\n\n${qualifiers}${qualifiers ? "\n\n" : ""}— ${form.name}${
+        form.email ? ` (${form.email})` : ""
+      }`
     );
     return `mailto:${config.html.email}?subject=${encodeURIComponent(
       `Project enquiry via ${BRAND}`
@@ -159,6 +187,11 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // The button is disabled while sending, but a second submit can still
+    // arrive from the Enter key before React has repainted. Drop it.
+    if (status === "sending") return;
+
     const found = validate(form);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
@@ -178,6 +211,8 @@ const ContactPage = () => {
           to_name: config.html.fullName,
           from_email: form.email,
           to_email: config.html.email,
+          project_type: form.projectType || "Not specified",
+          budget: form.budget || "Not specified",
           message: form.message,
         },
         emailjsConfig.accessToken
@@ -306,6 +341,60 @@ const ContactPage = () => {
                 {errors.email}
               </p>
             )}
+          </div>
+
+          {/* Optional qualifiers. Side by side on a wide screen, stacked on a
+              phone, and both answerable with a single tap. */}
+          <div className="grid gap-5 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor="projectType"
+                className="mb-2 block text-[13px] font-semibold"
+              >
+                Type of project{" "}
+                <span className="font-normal text-secondary">(optional)</span>
+              </label>
+              <select
+                id="projectType"
+                name="projectType"
+                value={form.projectType}
+                onChange={handleChange}
+                className={field}
+                style={fieldStyle("projectType")}
+              >
+                <option value="">Select one…</option>
+                {projectTypes.map((t) => (
+                  <option key={t} value={t}>
+                    {t}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label
+                htmlFor="budget"
+                className="mb-2 block text-[13px] font-semibold"
+              >
+                Budget range{" "}
+                <span className="font-normal text-secondary">(optional)</span>
+              </label>
+              <select
+                id="budget"
+                name="budget"
+                value={form.budget}
+                onChange={handleChange}
+                className={field}
+                style={fieldStyle("budget")}
+              >
+                <option value="">Select one…</option>
+                {budgetRanges.map((b) => (
+                  <option key={b} value={b}>
+                    {b}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div>
