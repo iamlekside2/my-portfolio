@@ -26,6 +26,25 @@ const webApps: TProject[] = [
     audience: 'Staff and members working through multi-stage submissions',
     description:
       'React front end built around dashboards and multi-step forms that carry a submission through its stages, rather than collecting everything on a single page.',
+    problem:
+      'A submission that moves through several stages and more than one reviewer does not fit on a single page. Asking for everything at once produces abandoned forms and half-complete records, and it leaves neither the person submitting nor the staff reviewing any way to answer the only question either of them has: where has this got to.',
+    decisions: [
+      {
+        title: 'Stages that persist independently',
+        detail:
+          'Each step validates and saves on its own rather than the form submitting once at the end. A submission can be resumed after a dropped connection, and a reviewer can see precisely how far it progressed instead of inferring it from an empty record.',
+      },
+      {
+        title: 'A single store behind form and dashboard',
+        detail:
+          'Form state spans several screens while the dashboard reads the same records. Redux Toolkit holds both so the two cannot drift, which is the usual failure when a multi-step flow keeps its own local copy.',
+      },
+      {
+        title: 'The dashboard exists to answer status',
+        detail:
+          'It was built around progress through stages rather than around totals. The measure of the feature is whether it removes the phone call asking where a submission has reached.',
+      },
+    ],
     contribution: [
       'Built and maintained the user-facing React application',
       'Implemented dashboards and multi-step form flows',
@@ -45,6 +64,25 @@ const webApps: TProject[] = [
     audience: 'Internal administrators managing accounts and billing',
     description:
       'Back-office dashboard behind a consumer calling product. Holds the accounts, subscriptions and payment records the public app depends on, with the interface changing by staff role.',
+    problem:
+      'A consumer calling product accumulates account, subscription and payment records faster than any manual process can service them. Support, finance and administration all need to act on the same records but should not all see or change the same fields, and until a back office exists every request lands on whoever happens to have database access.',
+    decisions: [
+      {
+        title: 'The role decides the surface',
+        detail:
+          'Rather than render one screen and hide the controls a user may not touch, each role is given its own view. Hiding after the fact leaks through direct links and stale views, and it leaves everyone reading an interface built mostly for somebody else.',
+      },
+      {
+        title: 'Billing state read from the payment APIs',
+        detail:
+          'Subscription and payment status is read from the payment provider rather than mirrored into a second table. A local copy of financial state is a second source of truth, and the two disagree exactly when it matters.',
+      },
+      {
+        title: 'A component set built before the screens',
+        detail:
+          'An admin tool is several dozen variations on table, form and detail view. Building the shared set first made each later screen a composition rather than a rebuild, and it is why the surface stayed consistent as it grew.',
+      },
+    ],
     contribution: [
       'Built the admin dashboard for users, subscribers and payments',
       'Implemented role-based permissions and role-dependent UI',
@@ -63,6 +101,25 @@ const webApps: TProject[] = [
     audience: 'Care coordinators following referrals through to outcome',
     description:
       'Referral and patient-tracking system. Referrals are captured through staged forms and then followed on a dashboard that reflects status changes as they happen, instead of living in a spreadsheet.',
+    problem:
+      'Referrals arriving by phone, email and paper leave no shared record of what happened next. Coordinators chase outcomes by asking colleagues, and a referral that stalls stays invisible until somebody happens to notice. The gap between referral and outcome is the thing that matters most in coordinated care, and a spreadsheet records it worst.',
+    decisions: [
+      {
+        title: 'Status is the spine of the system',
+        detail:
+          'A referral carries an explicit status rather than having it inferred from which columns are filled in. Every view is built on that status, so a stalled referral surfaces on the dashboard instead of waiting to be discovered.',
+      },
+      {
+        title: 'Capture staged at the point of referral',
+        detail:
+          'Referral details are collected in stages matching how the information actually arrives, rather than demanding a complete record before anything can be saved. An incomplete referral inside the system beats a complete one in a notebook.',
+      },
+      {
+        title: 'Dashboards that move when the data moves',
+        detail:
+          'Status changes reflect on the dashboard as they happen. A tracking system that has to be refreshed to be trusted gets checked less often, and then stops being the source of truth.',
+      },
+    ],
     contribution: [
       'Developed the patient referral and tracking system',
       'Built dashboards reflecting referral status updates in real time',
@@ -118,6 +175,25 @@ const webApps: TProject[] = [
     audience: 'Team leads and management reviewing performance',
     description:
       'Performance tracking across teams: targets are set, progress reports back through dashboards, and review conversations start from the same numbers rather than from competing spreadsheets.',
+    problem:
+      'Performance reviews that begin from separately maintained spreadsheets spend their first half disputing whose numbers are correct. Targets agreed in one place and results recorded in another drift apart over a quarter, and by review time nobody can reconstruct what was actually agreed or when it changed.',
+    decisions: [
+      {
+        title: 'Targets and results in one system',
+        detail:
+          'Setting a target and reporting against it are the same workflow rather than two documents that have to be reconciled. That is the whole point of the platform: the review starts from numbers both sides already accept.',
+      },
+      {
+        title: 'Team-level aggregation as a first-class view',
+        detail:
+          'Roll-up to team was designed in rather than added later as a report. A manager and an individual ask different questions of the same data, and recomputing one from the other by hand is where errors enter.',
+      },
+      {
+        title: 'TypeScript across the metric models',
+        detail:
+          'Targets, results and their aggregations are typed end to end. On a reporting surface a silently wrong number does more damage than a crash, because nobody notices it.',
+      },
+    ],
     contribution: [
       'Built the KPI tracking and reporting interface',
       'Implemented target setting and team-level performance analytics',
@@ -136,6 +212,25 @@ const webApps: TProject[] = [
     audience: 'Church administrators managing members and events',
     description:
       'Administration dashboard covering member records, event scheduling and notifications — the recurring admin work of running a congregation, gathered into one place.',
+    problem:
+      'The recurring administration of a congregation, meaning who is a member, what is scheduled and who needs telling, usually lives across notebooks, personal phone contacts and group chats. It works until the person holding it is unavailable, and it cannot be handed over when a role changes.',
+    decisions: [
+      {
+        title: 'Firebase so there is no server to run',
+        detail:
+          'A congregation has no technical staff and little appetite for infrastructure cost. A managed backend keeps running cost and maintenance near zero, which is what decides whether a system like this is still in use in two years.',
+      },
+      {
+        title: 'Members, events and notifications in one model',
+        detail:
+          'The three were built against a shared data model rather than as separate tools, because in practice they are one workflow: a member record drives who is contacted about which event.',
+      },
+      {
+        title: 'Forms designed for occasional use',
+        detail:
+          'The people entering data do it infrequently and are not trained on it. The entry forms assume somebody returning after a month, not a daily operator who has memorised the fields.',
+      },
+    ],
     contribution: [
       'Built the management dashboard in React',
       'Implemented event scheduling, member tracking and notifications',
@@ -154,6 +249,25 @@ const webApps: TProject[] = [
     audience: 'Readers browsing and searching a proverb collection',
     description:
       'A searchable collection of African proverbs. The real work was retrieval — search and filtering that make a large body of very short texts navigable — plus the content pipeline behind it.',
+    problem:
+      'A large collection of very short texts is the hardest kind of content to browse. Proverbs have no natural hierarchy, their title is the text itself, and a visitor rarely recalls the exact wording they are looking for. Without good retrieval a large collection is genuinely less useful than a small one.',
+    decisions: [
+      {
+        title: 'Retrieval built as the interface',
+        detail:
+          'Search and filtering are the primary way through the collection rather than a box added above a list. The browsing experience was designed around not knowing the exact phrase, which is the normal case here.',
+      },
+      {
+        title: 'Next.js so individual entries are server-rendered',
+        detail:
+          'Short texts live or die on being findable. Server rendering means each proverb is a real page a search engine can index, rather than a fragment that exists only once JavaScript has run.',
+      },
+      {
+        title: 'A content pipeline kept separate from the site',
+        detail:
+          'Proverb data is integrated through its own APIs rather than held inside the pages. Adding to the collection is a content operation, not a deployment.',
+      },
+    ],
     contribution: [
       'Developed and maintained the site',
       'Implemented search, filtering and the browsing interface',
@@ -234,6 +348,25 @@ const siteSeeds: SiteSeed[] = [
     audience: 'Nigerian companies booking business travel',
     description:
       'Corporate travel agency running flight ticketing, hotels, MICE, visa applications, FAAN-registered airport protocol and transfers from offices in Ibadan, Lagos and Abuja. The site has to carry a wide service range without burying the enquiry route.',
+    problem:
+      'An agency running ticketing, hotels, MICE, visa processing, airport protocol and transfers across three cities has a breadth problem rather than a depth one. Presented as one list every line is diluted, a company looking only for visa processing should not have to read past six other services to find it, and the enquiry route has to stay within reach of wherever they landed.',
+    decisions: [
+      {
+        title: 'Each service line findable on its own',
+        detail:
+          'The range is structured so a single service can be arrived at directly, rather than requiring the visitor to understand the whole offering first. Breadth is an asset only when each part can be found alone.',
+      },
+      {
+        title: 'The enquiry route repeated, not centralised',
+        detail:
+          'Rather than funnel everyone to one contact page, the enquiry route sits with each service. A visitor who is ready to act should never have to navigate back out in order to do it.',
+      },
+      {
+        title: 'WordPress so offerings change without a developer',
+        detail:
+          'Travel services shift with seasons, routes and regulations. The content had to belong to the agency, and that is what decided the platform.',
+      },
+    ],
     contribution: [
       'Designed and built the site on WordPress',
       'Structured the service range so each line is findable on its own',
@@ -248,6 +381,25 @@ const siteSeeds: SiteSeed[] = [
     audience: 'Investors and institutions checking a regulated broker',
     description:
       'A Nigerian broker/dealer registered with the Securities and Exchange Commission and a trading licence holder of the Nigerian Exchange. In regulated finance the site is a credibility document first: registration status and advisory services have to be legible immediately.',
+    problem:
+      'In regulated finance the first question a visitor has is whether the firm is real and properly registered. Somebody checking a broker or dealer is performing due diligence rather than shopping, and a site that leads with marketing language ahead of regulatory standing fails the only test actually being applied to it.',
+    decisions: [
+      {
+        title: 'Regulatory standing before the marketing',
+        detail:
+          'SEC registration and the Nigerian Exchange trading licence are presented up front rather than filed under an About page. For this audience that is not a credential to mention in passing, it is the reason they opened the site.',
+      },
+      {
+        title: 'Advisory lines stated plainly',
+        detail:
+          'Service descriptions avoid the inflated language common to the sector. In a field where confidence is the product, overstatement reads as a warning sign rather than as strength.',
+      },
+      {
+        title: 'Content the firm can correct itself',
+        detail:
+          'Registrations, disclosures and service descriptions change and occasionally have to be corrected quickly. Building on WordPress meant a compliance correction never waits on developer availability.',
+      },
+    ],
     contribution: [
       'Designed and built the corporate site on WordPress',
       'Presented regulatory standing and the advisory service lines clearly',
@@ -327,6 +479,25 @@ const siteSeeds: SiteSeed[] = [
     audience: 'Local businesses competing in map and local search',
     description:
       'An agency that restores, optimises and boosts Google Business Profiles. The site sells an outcome in local search, so it is written as a conversion page rather than a brochure.',
+    problem:
+      'An agency selling a local-search outcome competes against both free DIY advice and cheaper freelancers. The visitor usually already knows their Google Business Profile is underperforming, and what they are weighing is whether this agency will actually fix it. A brochure site answers a question nobody asked.',
+    decisions: [
+      {
+        title: 'Built as a conversion path, not a brochure',
+        detail:
+          'The page order follows the decision the visitor is making rather than the structure of the company. Nothing is included merely because a corporate site conventionally has it.',
+      },
+      {
+        title: 'Lead capture at the point of decision',
+        detail:
+          'Enquiry forms sit where the visitor becomes convinced rather than only at the end. Making somebody navigate once they have already decided loses a proportion of them for no reason.',
+      },
+      {
+        title: 'Service pages that lead with the outcome',
+        detail:
+          'Each page opens with what the client ends up with rather than the method used to get there. The method matters to the agency, the outcome is what is being bought.',
+      },
+    ],
     contribution: [
       'Designed and built the site on WordPress',
       'Structured the service pages around the conversion path',
@@ -341,6 +512,25 @@ const siteSeeds: SiteSeed[] = [
     audience: 'Businesses whose Google profile has been suspended',
     description:
       'A single-problem service: getting a suspended Google Business Profile reinstated. The audience arrives in difficulty and needs the process explained before they will enquire, so the site leads with the walkthrough.',
+    problem:
+      'A business whose Google Business Profile has been suspended has lost its local visibility without warning and usually without a clear reason. They arrive anxious and sceptical, because the market around this problem is full of people promising reinstatement. Selling before explaining reads as one more opportunist.',
+    decisions: [
+      {
+        title: 'Process before pitch',
+        detail:
+          'The reinstatement walkthrough comes ahead of the sales copy. Showing the visitor that the problem is understood is what earns the enquiry here, and explaining work that is genuinely hard to do costs nothing.',
+      },
+      {
+        title: 'One problem, one site',
+        detail:
+          'The offer was deliberately kept narrow rather than broadened into general profile management. A single-problem service is more credible to somebody who has exactly that problem.',
+      },
+      {
+        title: 'Elementor so the process copy stays current',
+        detail:
+          'Google changes its policies and appeal routes regularly. The walkthrough is the most valuable thing on the site and the quickest to go stale, so it had to be editable without a developer.',
+      },
+    ],
     contribution: [
       'Built the site on WordPress with Elementor',
       'Laid out the reinstatement process ahead of the sales pitch',
@@ -355,6 +545,25 @@ const siteSeeds: SiteSeed[] = [
     audience: 'Nigerian businesses and training clients',
     description:
       'An Abuja company spanning genuinely unrelated lines — business consulting, agricultural solutions, human capital development, corporate training and CNG vehicle conversion. The structural problem was letting five unrelated offerings coexist without the site reading as unfocused.',
+    problem:
+      'Five unrelated service lines under one company is a structural problem before it is a design one. Consulting, agricultural solutions, human capital development, corporate training and CNG vehicle conversion share no audience and no vocabulary. Presented as one list the company reads as unfocused, split into five sites it loses the single corporate identity holding them together.',
+    decisions: [
+      {
+        title: 'Each line given its own section',
+        detail:
+          'The five are separated so a visitor can go straight to the one that concerns them without reading past four they do not care about. The alternative is a homepage that describes nobody.',
+      },
+      {
+        title: 'Enquiry routes per service line',
+        detail:
+          'Each line has its own enquiry path rather than one shared form, because an enquiry about CNG conversion and one about corporate training need different information and reach different people.',
+      },
+      {
+        title: 'One corporate frame around five offers',
+        detail:
+          'A shared identity and navigation hold the lines together so the breadth reads as capability rather than as drift. Striking that balance was the actual brief.',
+      },
+    ],
     contribution: [
       'Designed and built the site on WordPress',
       'Separated the five service lines into their own navigable sections',
@@ -369,6 +578,25 @@ const siteSeeds: SiteSeed[] = [
     audience: 'Patients and families seeking care in Kogi State',
     description:
       'A mission hospital presenting its departments, services and facilities. Visitors are often deciding where to seek care, so clarity about what the hospital treats and how to reach it outranks visual flourish.',
+    problem:
+      'Somebody choosing where to seek care is answering practical questions under stress: does this hospital treat what I have, what facilities does it hold, and how do I reach it. A hospital site that prioritises imagery over those answers fails the visitor at precisely the moment they most need it.',
+    decisions: [
+      {
+        title: 'Departments and services as the primary structure',
+        detail:
+          'The site is organised around what the hospital treats rather than around its institutional history. The visitor arrived with a condition in mind, and that is the axis they navigate on.',
+      },
+      {
+        title: 'Contact and location reachable from any page',
+        detail:
+          'Address and contact details are available wherever the visitor happens to be, rather than only on a contact page. Somebody deciding to travel to a hospital should never have to go looking for how.',
+      },
+      {
+        title: 'WordPress so hospital staff maintain it',
+        detail:
+          'Departments, services and facility information change with staffing and equipment. Keeping those edits in the hands of the hospital is what stops the site drifting out of date.',
+      },
+    ],
     contribution: [
       'Designed and built the hospital site on WordPress',
       'Structured departments, services and facility information',
