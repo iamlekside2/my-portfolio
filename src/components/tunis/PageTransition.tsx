@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
 import { useNavDirection } from "./direction";
+import { useIsFirstPage } from "./useIsFirstPage";
 
 const variants = {
   enter: (dir: number) => ({ x: dir * 160, opacity: 0 }),
@@ -20,11 +21,14 @@ const variants = {
  *  backward navigation from the left. */
 const PageTransition = ({ children }: { children: ReactNode }) => {
   const dir = useNavDirection();
+  const isFirstPage = useIsFirstPage();
   return (
     <motion.main
       custom={dir}
       variants={variants}
-      initial="enter"
+      // `false` renders the `center` state directly, so the prerendered HTML
+      // is visible the moment it lands instead of waiting on hydration.
+      initial={isFirstPage ? false : "enter"}
       animate="center"
       exit="exit"
       className="min-h-screen"
