@@ -87,22 +87,22 @@ export const caseStudyDetail: Record<string, TCaseStudyDetail> = {
   },
   hrrp: {
     problem:
-      'HR work that spans more than one person — a leave request, an appraisal, an onboarding — had no single place to live. Records sat in spreadsheets, approvals happened in email, and the question of where a request had got to could only be answered by asking someone. The reporting an HR function needs had to be assembled by hand each time.',
+      'Nigerian health research was effectively unfindable. Articles, datasets, trial results and policy briefs sat with individual researchers, in institutional folders or behind paywalled journals, so a ministry deciding where to spend had no single place to look for the national evidence and the same study could be commissioned twice. Work that was never deposited anywhere citable stopped counting.',
     decisions: [
+      {
+        title: 'Deposit and discovery are one record, not two systems',
+        detail:
+          'What a researcher submits is the same record a reader later finds and cites. A repository that treats submission as an intake queue and search as a separate index drifts: the two disagree about what is published, and the version a decision-maker reads is not the one on file. One record model carries the work from deposit through review to a citable public page.',
+      },
+      {
+        title: 'Review stage as the unit of state',
+        detail:
+          'A submission carries an explicit stage rather than a scatter of booleans. Adding a review step is a change to the stage list instead of a change to every screen that reads the record, and "where has this got to" has one authoritative answer — which is also what an author chasing their own submission is asking.',
+      },
       {
         title: 'Role decides the surface, not just the permissions',
         detail:
-          'Rather than render one interface and hide what a user may not touch, each role is given its own view of the platform. A staff member, a line manager and an HR administrator open the same route and see different pages. Hiding controls after the fact tends to leak — through a direct URL, through a stale cached view — and it also leaves every user reading an interface mostly built for someone else.',
-      },
-      {
-        title: 'Workflow stage as the unit of state',
-        detail:
-          'A request carries an explicit stage rather than a scatter of booleans. Adding an approval step is a change to the stage list instead of a change to every screen that reads the record, and "where has this got to" has one authoritative answer.',
-      },
-      {
-        title: 'TypeScript across the record and workflow models',
-        detail:
-          'Staff records and workflow payloads are typed end to end. On a platform where several roles write to the same record, a shape mismatch between a form and the API is the failure that costs most to find in production.',
+          'Rather than render one interface and hide what a user may not touch, each role is given its own view. A depositing researcher, a peer reviewer and a ministry administrator open the same route and see different pages. Hiding controls after the fact tends to leak — through a direct URL, through a stale cached view — and on a public repository an unreviewed record surfacing early is a correction that cannot be taken back.',
       },
     ],
   },

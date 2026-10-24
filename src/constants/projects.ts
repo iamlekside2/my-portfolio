@@ -74,17 +74,17 @@ const webApps: TProject[] = [
     sourceCodeLink: 'https://nexalifecare.com/',
   },
   {
-    name: 'HRRP — HR Platform',
+    name: 'NHRR — National Health Research Repository',
     slug: 'hrrp',
     category: WEB_APPS,
-    sector: 'Technology and health-tech services company',
-    audience: 'HR staff and managers across the organisation',
+    sector: 'Federal Ministry of Health & Social Welfare, Nigeria',
+    audience: 'Researchers depositing work; policy-makers and clinicians searching it',
     description:
-      'HR platform covering staff records, the workflows that move a request between people, and reporting across both. Access is scoped by role, so staff, managers and HR each see a different surface.',
+      'National open-access repository for Nigerian health research. Articles, datasets, clinical trials, preprints, policy briefs and reports are deposited in one place, made citable and FAIR-compliant, and searchable by anyone. A submission moves through explicit review stages, and researcher, reviewer and administrator each work from a different surface.',
     contribution: [
-      'Built the HR platform front end in React and TypeScript',
-      'Implemented staff records, workflow stages and reporting views',
-      'Implemented role-based access control across the surfaces',
+      'Built the repository front end in React and TypeScript',
+      'Implemented deposit, search and discovery, and the record pages research is cited from',
+      'Implemented the review workflow stages and role-scoped access across the surfaces',
     ],
     stack: ['React', 'TypeScript', 'REST APIs'],
     tags: tag('react', 'typescript', 'api'),
@@ -344,7 +344,7 @@ const siteSeeds: SiteSeed[] = [
     sector: 'Software and health-tech services',
     audience: 'Prospective clients and partners',
     description:
-      'Company site for the software and health-tech services business behind the HRRP and KPI platforms — the same client, presented publicly rather than internally.',
+      'Company site for the software and health-tech services business behind the NHRR and KPI platforms — the same client, presented publicly rather than internally.',
     contribution: ['Built and maintained the company website'],
   },
   {
