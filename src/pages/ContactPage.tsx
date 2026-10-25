@@ -10,6 +10,7 @@ import {
 } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import emailjs from "@emailjs/browser";
+import { trackEnquiry } from "../utils/analytics";
 import PageShell from "../components/tunis/PageShell";
 import Socials from "../components/tunis/Socials";
 import { config } from "../constants/config";
@@ -296,6 +297,7 @@ const ContactPage = () => {
       setStatus("sent");
       setForm(INITIAL);
       writeLastSent();
+      trackEnquiry("contact-form");
     } catch {
       setStatus("error");
     }
