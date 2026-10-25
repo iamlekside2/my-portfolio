@@ -10,7 +10,8 @@
     "brand": "node scripts/brand-assets.mjs",
     "trace:logo": "node scripts/trace-logo.mjs",
     "images": "node scripts/optimize-images.mjs",
-    "preview": "vite preview",
+    "preview": "node scripts/preview.mjs",
+    "preview:vite": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "ts:check": "tsc --noEmit"
   },
